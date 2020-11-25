@@ -1,0 +1,59 @@
+\documentclass[12pt, letterpaper]{article}
+
+\begin{document}
+
+\title{Binomial Pricing Model \\
+\large Probability and Inference}
+\author{Charlie Liu}
+\date{\today}
+\maketitle
+
+\section{Introduction}
+
+In finance and economics, the asset market is a blanket term that covers all the various underlying markets that involve the exchange of financial assets.
+The stock market is one popular example of an underlying market where buyers and sellers can exchange assets in the form of stocks/shares (ownership) of a company.
+Other notable markets include the bond market where fixed-income assets like corporate bonds are exchanged, and the derivatives market where contracts between two consenting parties are exchanged.
+The different types of markets can be accessed depends on the features provided by the service or brokerage used.
+
+
+Since the goal when exchanging financial assets is to obtain profit or minimize loses, one must account for the valuation of the asset being exchanged.
+The valuation of an asset is based on the future expected cash flow (CHAPTER5PDF) and is especially important when exchanging assets because pricing is typically determined by the seller and influenced by the buyers.
+It is important to note here that because asset valuation is based on future expected cash flow, any calculated valuation such as intrinsic (justified) valuation is considered theoretical.
+This is why quantitative analysis is heavily used in asset valuation as the various mathematical models and technicals/fundamentals are used to estimate the valution of an asset.
+For stocks and bonds, there are various ways to obtain the intrinsic value through different mathematical models; some of which are listed here: (https://xplaind.com/746919/stock-valuation).
+
+
+For financial derivatives, valuation is a lot harder to calculate because they are essentially contracts that \_derive\_ their value from the performance of the underlying entity %(https://en.wikipedia.org/wiki/Derivative_(finance)).
+Since asset valuation is already difficult to calculate and are theoretical, financial derivatives are like an extra layer of theoretical valuation on top of theoretical valuation.
+One notable financial derivative is the option contract. 
+Option contracts gives the buyer the right to "exercise" the contract which means the contract holder can either buy or sell the underlying entity (usually stock) at a fixed price once a certain price threshold called the strike price is met.
+In order to profit from exercising the option, the amount generated from buying or selling at the strike price must cover the cost of the option.
+All option contracts come with an expiration time.
+If the strike price condition is not met for the option contract, then the contract is considered worthless and will "expire" which results in a loss based on the amount paid for on the option contract.
+This "expiration" is also called "maturity".
+An option contract to buy the underlying entity is called a call and an option contract to sell the underlying entity is called a put.
+One may buy a call or put option on the market and then sell that same option contract on the market.
+
+The benefit of options is the leveraged returns and its main disadvantage is the leveraged risk.
+The price of an option contract is essentially the premium fee paid per share times the number of shares listed in the contract (which is typically 100 shares).
+This means if an option contract average bid-ask price was \$0.42/share, then the actual amount needed to purchase the option would be \$0.42 x 100= \$42.00.
+This also means that if the average bid-ask spread of the option increases from \$0.42/share to \$0.80/share, then the option can be resold on the market for a \$0.38/share or \$38.00 profit, which is a \~90.47\% increase from the initial investment.
+This effect also works in the opposite direction, where if the average bid-ask price of the option decreased to \$0.08, then there would be a loss of \~80.95\% from the initial investment.
+
+Various factors can have different effects on the valuation of the option contract. 
+
+The famous mathematical model called the Black-Scholes Model developed by Fischer Black, Myron Scholes, and Robert C. Merton was able to give a theoretical valuation of European-style options (https://en.wikipedia.org/wiki/Black-Scholes\_model).
+There is emphasis on "European-style" options in this case because the Black-Scholes model (by itself) is only accurate on the European-style options.
+European-style options only allow exercise on expiration/maturity, while American-style options allow the holder to exercise before expiration.
+This early exercise of the American-style options makes it difficult to find the optimal time to exercise the option for maximum gains (https://en.wikipedia.org/wiki/Black-Scholes\_model) as the Black-Scholes model cannot account for the various outcomes before expiration. 
+
+The Binomial options pricing model, developed in 1979, overcame this limitation for the American-style options (LIST CREDITORS).
+Its feature of generating "nodes" that represent different possible outcomes over a period of time allows for better insight into the optimal stop.
+
+Some more commentary is provided in the "Commentary Section" below to compare both models.
+
+
+\section{Methods}
+
+
+\end{document}
