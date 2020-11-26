@@ -1,5 +1,10 @@
 \documentclass[12pt, letterpaper]{article}
 
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{matrix, positioning}
+\tikzset{bullet/.style={circle,fill,inner sep=2pt}}
+
 \begin{document}
 
 \title{Binomial Pricing Model \\
@@ -52,8 +57,72 @@ Its feature of generating "nodes" that represent different possible outcomes ove
 
 Some more commentary is provided in the "Commentary Section" below to compare both models.
 
+\pagebreak
 
 \section{Methods}
 
+The binomial options pricing model aims to find the valuation of the chosen option at discrete times based on various inputs given.
+It achieves this by generating a binomial decision tree where each node represents the valuation of the option at a certain point in time.
+This binomial tree is essentially a latice of Bernoulli processes in which each path represents a Bernoulli process because at each [non end/start] node there are two directional outcomes of the stock: up or down.
+This also means that the probabilities for up and down movement are p and 1-p respectively where 0 $\leq$ p $\leq$ 1.
+
+\begin{tikzpicture}[>=stealth, sloped, baseline]
+  \matrix (tree) [%
+    matrix of nodes,
+    minimum size=1cm,
+    column sep=2cm,
+    row sep=1cm, nodes={text width=8em}
+    	]
+    {
+		t=0 & t=1 & t=2 \\
+					& & ${S}_{u | u}$ \\
+
+      	& {}&\\
+
+      ${S}_0$ & & ${S}_{u | d}$\\
+
+      	& {}&\\
+
+					& & ${S}_{d | d}$ \\
+    };
+		\node[bullet, left=0mm of tree-2-3.west](b-2-3){};
+    \node[bullet, left=0mm of tree-3-2.west, label=above:${S}_u$](b-3-2){};
+ 		\node[bullet, right=7mm of tree-4-1.west](b-4-1){};
+ 		\node[bullet, left=0mm of tree-4-3.west](b-4-3){};
+    \node[bullet, left=0mm of tree-5-2.west, label=above:${S}_d$](b-5-2){};
+		\node[bullet, left=0mm of tree-6-3.west](b-6-3){};
+    \draw[->] (b-4-1) -- (b-3-2) node [midway,above] {$p$};
+    \draw[->] (b-4-1) -- (b-5-2) node [midway,below] {$(1-p)$};
+    
+		\draw[->] (b-3-2) -- (b-2-3) node [midway,above] {$p$};
+    \draw[->] (b-3-2) -- (b-4-3) node [midway,below] {$(1-p)$};
+
+		\draw[->] (b-5-2) -- (b-4-3) node [midway,above] {$p$};
+    \draw[->] (b-5-2) -- (b-6-3) node [midway,below] {$(1-p)$};
+  \end{tikzpicture}
+
+
+There are two ways to obtain the valuation of the option using this model.
+One way is thorugh a method called "delta-hedging" and the other is to use the probabilities for each node path.
+The novel feature of this model is that option valuation can be achieved without the need of probabilities through delta-hedging.
+If obtaining the valuation through probabilities, the expected return would be based on the probabilities inputed, but the problem is that the true probabilities are unknown.
+This same feature is what made Black-Scholes famous in that the true probabilities and expected returns were uneccessary to obtain the valuation of the given option contract. (https://www.youtube.com/watch?v=PZrmOh2nZus)
+
+For this paper, only the probabilities method will be used to obtain the valuation of the given option. 
+
+The process to evaluate the given option is described as a three step process: %(https://en.wikipedia.org/wiki/Binomial_options_pricing_model)
+
+1. Price tree generation
+2. Calculation of option value at each final node
+3. Sequential calculation of the option value at each preceding node
+
+\subsection{Price Tree Generation}
+Before diving into the actual process of the model, there are some variables that need to be established.
+
+Let "u": the fixed factor in which the price of the underlying stock increases
+
+Let "d": the fixed factor in which the price of the underlying stock decreases
+
+Let "r": the risk-free interest rate %[insert footnote here about what it is]
 
 \end{document}
