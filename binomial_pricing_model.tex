@@ -2,6 +2,7 @@
 
 \usepackage{amsmath}
 \usepackage{tikz}
+\usepackage{caption}
 \usetikzlibrary{matrix, positioning}
 \tikzset{bullet/.style={circle,fill,inner sep=2pt}}
 
@@ -13,7 +14,7 @@
 \date{\today}
 \maketitle
 
-\section{Introduction}
+\section*{Introduction}
 
 In finance and economics, the asset market is a blanket term that covers all the various underlying markets that involve the exchange of financial assets.
 The stock market is one popular example of an underlying market where buyers and sellers can exchange assets in the form of stocks/shares (ownership) of a company.
@@ -59,47 +60,52 @@ Some more commentary is provided in the "Commentary Section" below to compare bo
 
 \pagebreak
 
-\section{Methods}
+\section*{Methods}
 
 The binomial options pricing model aims to find the valuation of the chosen option at discrete times based on various inputs given.
 It achieves this by generating a binomial decision tree where each node represents the valuation of the option at a certain point in time.
-This binomial tree is essentially a latice of Bernoulli processes in which each path represents a Bernoulli process because at each [non end/start] node there are two directional outcomes of the stock: up or down.
+This binomial tree is essentially a lattice of Bernoulli processes in which each path represents a Bernoulli process because at each [non end/start] node there are two directional outcomes of the stock: up or down.
 This also means that the probabilities for up and down movement are p and 1-p respectively where 0 $\leq$ p $\leq$ 1.
 
-\begin{tikzpicture}[>=stealth, sloped, baseline]
-  \matrix (tree) [%
-    matrix of nodes,
-    minimum size=1cm,
-    column sep=2cm,
-    row sep=1cm, nodes={text width=8em}
-    	]
-    {
-		t=0 & t=1 & t=2 \\
-					& & ${S}_{u | u}$ \\
-
-      	& {}&\\
-
-      ${S}_0$ & & ${S}_{u | d}$\\
-
-      	& {}&\\
-
-					& & ${S}_{d | d}$ \\
-    };
-		\node[bullet, left=0mm of tree-2-3.west](b-2-3){};
-    \node[bullet, left=0mm of tree-3-2.west, label=above:${S}_u$](b-3-2){};
- 		\node[bullet, right=7mm of tree-4-1.west](b-4-1){};
- 		\node[bullet, left=0mm of tree-4-3.west](b-4-3){};
-    \node[bullet, left=0mm of tree-5-2.west, label=above:${S}_d$](b-5-2){};
-		\node[bullet, left=0mm of tree-6-3.west](b-6-3){};
-    \draw[->] (b-4-1) -- (b-3-2) node [midway,above] {$p$};
-    \draw[->] (b-4-1) -- (b-5-2) node [midway,below] {$(1-p)$};
-    
-		\draw[->] (b-3-2) -- (b-2-3) node [midway,above] {$p$};
-    \draw[->] (b-3-2) -- (b-4-3) node [midway,below] {$(1-p)$};
-
-		\draw[->] (b-5-2) -- (b-4-3) node [midway,above] {$p$};
-    \draw[->] (b-5-2) -- (b-6-3) node [midway,below] {$(1-p)$};
+\begin{figure}
+  \centering
+  \begin{tikzpicture}[>=stealth, sloped, baseline]
+    \matrix (tree) [%
+      matrix of nodes,
+      minimum size=1cm,
+      column sep=2cm,
+      row sep=1cm, nodes={text width=5em}
+      	]
+      {
+  		  t=0 & t=1 & t=2 \\
+  
+  					&  &  ${S}_{u | u}$ \\
+  
+        	&  {}  &\\
+  
+        ${S}_0$  &  &  ${S}_{u | d}$\\
+  
+        	&  {}  &\\
+  
+  					&  &  ${S}_{d | d}$ \\
+      };
+  		\node[bullet, left=0mm of tree-2-3.west](b-2-3){};
+      \node[bullet, left=0mm of tree-3-2.west, label=above:${S}_u$](b-3-2){};
+   		\node[bullet, right=7mm of tree-4-1.west](b-4-1){};
+   		\node[bullet, left=0mm of tree-4-3.west](b-4-3){};
+      \node[bullet, left=0mm of tree-5-2.west, label=above:${S}_d$](b-5-2){};
+  		\node[bullet, left=0mm of tree-6-3.west](b-6-3){};
+      \draw[->] (b-4-1) -- (b-3-2) node [midway,above] {$p$};
+      \draw[->] (b-4-1) -- (b-5-2) node [midway,below] {$(1-p)$};
+      
+  		\draw[->] (b-3-2) -- (b-2-3) node [midway,above] {$p$};
+      \draw[->] (b-3-2) -- (b-4-3) node [midway,below] {$(1-p)$};
+  
+  		\draw[->] (b-5-2) -- (b-4-3) node [midway,above] {$p$};
+      \draw[->] (b-5-2) -- (b-6-3) node [midway,below] {$(1-p)$};
   \end{tikzpicture}
+  \caption{A generic binomial options pricing lattice with 2 periods}
+\end{figure}
 
 
 There are two ways to obtain the valuation of the option using this model.
@@ -116,13 +122,114 @@ The process to evaluate the given option is described as a three step process: %
 2. Calculation of option value at each final node
 3. Sequential calculation of the option value at each preceding node
 
-\subsection{Price Tree Generation}
-Before diving into the actual process of the model, there are some variables that need to be established.
+To best describe this method, it's best to have an example.
 
-Let "u": the fixed factor in which the price of the underlying stock increases
+Here are some variables that need to be established:
 
-Let "d": the fixed factor in which the price of the underlying stock decreases
+Let ${\textit{\textbf{(S)}}}$: \textit{\textbf{Stock Price}} = 100
 
-Let "r": the risk-free interest rate %[insert footnote here about what it is]
+Let ${\textit{\textbf{(X)}}}$: \textit{\textbf{Strike Price}} = 120
+
+Let ${\textit{\textbf{(r)}}}$: \textit{\textbf{Risk-Free Interest Rate}} = 0.11\%
+
+Let ${\textit{\textbf{(u)}}}$: \textit{\textbf{Up Factor}} = 1.20
+
+Let ${\textit{\textbf{(d)}}}$: \textit{\textbf{Down Factor}} = 0.90
+
+Let ${\textit{\textbf{(T)}}}$: \textit{\textbf{Time (year(s))}}  = 1
+
+Let ${\textit{\textbf{(t)}}}$: \textit{\textbf{Time Periods}}  = 2 
+
+\subsection*{1. Price Tree Generation}
+\subsubsection*{Establishing Movement Factors}
+"u": the fixed factor in which the price of the underlying stock increases by.
+"d": the fixed factor in which the price of the underlying stock decrease by.
+
+Depending on the level of precision and flexibility both "u" and "d" can just be the factor in which ${S}_{0}$ changes to ${S}_{1}$ from predetermined price targets.
+So for example:
+If ${S}_{0}$ = \$100 and ${S}_{1}$ = \$120, then "u" would be 1.2 as ${S}_{0}$ increased to ${S}_{1}$ by a factor of 1.2.
+If ${S}_{0}$ = \$100 and ${S}_{1}$ = \$90, then "d" would be 0.9 as ${S}_{0}$ decreased to ${S}_{1}$ by a factor of 0.9.
+
+Or if smaller intervals of time is being used such as hours and minutes, it is suggested that in the original 1979 CRR paper that:
+
+u = ${e}^{\sigma\sqrt{t/n}}$
+
+d = ${e}^{-\sigma\sqrt{t/n}}$ = ${1/u}$
+
+In which:
+${\sigma}$ represents the volatility of the stock price (standard deviation) %https://en.wikipedia.org/wiki/Volatility_(finance)
+${t/n}$ represents the time where "t" is the fixed length of time left to expiration and "n" is the number of periods left before expiration
+
+These formulas for "u" and "d" are a lot more involved as they must keep track of the compounded price over a larger period and smaller intervals of time such as minutes.
+
+The ${e}$ is used here because we want to calculate the continous compounding return of the stock price over time from the initial price.
+The continous componding formula to calculate the price (P) at time "t" is:
+
+${P(t)} = {P}_{0}e^{rt}$
+
+* Note the following is commentary of an assumption based on the research done.
+
+The formula for "u" is very similar to the formula for mean absolute deviation (MAD) of the normal distribution:
+
+MAD = ${\sigma\sqrt{2/\pi}}$
+
+According wikipedia on Average absolute deviation, the "MAD is the average of the absolute deviation from a central point".
+Which in this context means that "u" would be componding of the absolute deviation of the underlying stock.
+%(Source: https://en.wikipedia.org/wiki/Average_absolute_deviation )
+
+\subsubsection*{Risk-free interest rate}
+
+"r": the risk-free interest rate %[insert footnote here about what it is]
+This value represents the safest interest one would get if they were to put the money in that asset.
+The most common risk-free interest used is the U.S Treasury bond yields as the bonds are considered the safest (but not risk-free) assets to obtain interest.
+
+For simplicity, this paper will use 0.09\% from the current 6-month U.S Treasury bill as the risk-free interest rate for calculations.
+%(According to https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yield for Nov 25, 2020)
+
+\subsubsection{Generated Tree}
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}[>=stealth, sloped, baseline]
+    \matrix (tree) [%
+      matrix of nodes,
+      minimum size=1cm,
+      column sep=2cm,
+      row sep=1cm, nodes={text width=5em}
+      	]
+      {
+  		  t=0 & t=1 & t=2 \\
+  
+  					&  &  ${S}_{u | u}$ \\
+  
+        	&  {}  &\\
+  
+        ${S}_0$  &  &  ${S}_{u | d}$\\
+  
+        	&  {}  &\\
+  
+  					&  &  ${S}_{d | d}$ \\
+      };
+  		\node[bullet, left=0mm of tree-2-3.west](b-2-3){};
+      \node[bullet, left=0mm of tree-3-2.west, label=above:${S}_u$](b-3-2){};
+   		\node[bullet, right=7mm of tree-4-1.west](b-4-1){};
+   		\node[bullet, left=0mm of tree-4-3.west](b-4-3){};
+      \node[bullet, left=0mm of tree-5-2.west, label=above:${S}_d$](b-5-2){};
+  		\node[bullet, left=0mm of tree-6-3.west](b-6-3){};
+      \draw[->] (b-4-1) -- (b-3-2) node [midway,above] {$p$};
+      \draw[->] (b-4-1) -- (b-5-2) node [midway,below] {$(1-p)$};
+      
+  		\draw[->] (b-3-2) -- (b-2-3) node [midway,above] {$p$};
+      \draw[->] (b-3-2) -- (b-4-3) node [midway,below] {$(1-p)$};
+  
+  		\draw[->] (b-5-2) -- (b-4-3) node [midway,above] {$p$};
+      \draw[->] (b-5-2) -- (b-6-3) node [midway,below] {$(1-p)$};
+  \end{tikzpicture}
+  \caption{A generic binomial options pricing lattice with 2 periods}
+\end{figure}
+
+
+
+
 
 \end{document}
