@@ -79,22 +79,22 @@ This also means that the probabilities for up and down movement are p and 1-p re
       {
   		  t=0 & t=1 & t=2 \\
   
-  					&  &  ${S}_{u | u}$ \\
+            &  &  ${}$ \\
   
         	&  {}  &\\
   
-        ${S}_0$  &  &  ${S}_{u | d}$\\
+        ${S}_0$  &  &  ${}$\\
   
         	&  {}  &\\
   
-  					&  &  ${S}_{d | d}$ \\
+            &  &  ${}$ \\
       };
-  		\node[bullet, left=0mm of tree-2-3.west](b-2-3){};
-      \node[bullet, left=0mm of tree-3-2.west, label=above:${S}_u$](b-3-2){};
-   		\node[bullet, right=7mm of tree-4-1.west](b-4-1){};
-   		\node[bullet, left=0mm of tree-4-3.west](b-4-3){};
-      \node[bullet, left=0mm of tree-5-2.west, label=above:${S}_d$](b-5-2){};
-  		\node[bullet, left=0mm of tree-6-3.west](b-6-3){};
+      \node[bullet, left=0mm of tree-2-3.west, label=above:${u^2S}$, label=below:${V_c}$](b-2-3){};
+      \node[bullet, left=0mm of tree-3-2.west, label=above:${uS}$, label=below:${V_c}$](b-3-2){};
+      \node[bullet, right=7mm of tree-4-1.west](b-4-1){};
+      \node[bullet, left=0mm of tree-4-3.west, label=above:${udS}$, label=below:${V_c}$](b-4-3){};
+      \node[bullet, left=0mm of tree-5-2.west, label=above:${dS}$, label=below:${V_c}$](b-5-2){};
+      \node[bullet, left=0mm of tree-6-3.west, label=above:${u^2S}$, label=below:${V_c}$](b-6-3){};
       \draw[->] (b-4-1) -- (b-3-2) node [midway,above] {$p$};
       \draw[->] (b-4-1) -- (b-5-2) node [midway,below] {$(1-p)$};
       
@@ -132,9 +132,9 @@ Let ${\textit{\textbf{(X)}}}$: \textit{\textbf{Strike Price}} = 120
 
 Let ${\textit{\textbf{(r)}}}$: \textit{\textbf{Risk-Free Interest Rate}} = 0.11\%
 
-Let ${\textit{\textbf{(u)}}}$: \textit{\textbf{Up Factor}} = 1.20
+Let ${\textit{\textbf{(u)}}}$: \textit{\textbf{Up Factor}} = 1.25
 
-Let ${\textit{\textbf{(d)}}}$: \textit{\textbf{Down Factor}} = 0.90
+Let ${\textit{\textbf{(d)}}}$: \textit{\textbf{Down Factor}} = 1/u = 1/1.25 = 0.80
 
 Let ${\textit{\textbf{(T)}}}$: \textit{\textbf{Time (year(s))}}  = 1
 
@@ -145,35 +145,53 @@ Let ${\textit{\textbf{(t)}}}$: \textit{\textbf{Time Periods}}  = 2
 "u": the fixed factor in which the price of the underlying stock increases by.
 "d": the fixed factor in which the price of the underlying stock decrease by.
 
-Depending on the level of precision and flexibility both "u" and "d" can just be the factor in which ${S}_{0}$ changes to ${S}_{1}$ from predetermined price targets.
-So for example:
-If ${S}_{0}$ = \$100 and ${S}_{1}$ = \$120, then "u" would be 1.2 as ${S}_{0}$ increased to ${S}_{1}$ by a factor of 1.2.
-If ${S}_{0}$ = \$100 and ${S}_{1}$ = \$90, then "d" would be 0.9 as ${S}_{0}$ decreased to ${S}_{1}$ by a factor of 0.9.
-
-Or if smaller intervals of time is being used such as hours and minutes, it is suggested that in the original 1979 CRR paper that:
+It is suggested that in the original 1979 CRR paper that:
 
 u = ${e}^{\sigma\sqrt{t/n}}$
 
 d = ${e}^{-\sigma\sqrt{t/n}}$ = ${1/u}$
 
 In which:
-${\sigma}$ represents the volatility of the stock price (standard deviation) %https://en.wikipedia.org/wiki/Volatility_(finance)
+${\sigma}$ represents the volatility (standard deviation) of the stock price (add footnote about this) %https://en.wikipedia.org/wiki/Volatility_(finance)
 ${t/n}$ represents the time where "t" is the fixed length of time left to expiration and "n" is the number of periods left before expiration
 
-These formulas for "u" and "d" are a lot more involved as they must keep track of the compounded price over a larger period and smaller intervals of time such as minutes.
+One neat thing about these formulas is that the stock price at a certain time period ${n}$ can be calculated with this formula:
+\begin{equation*}
+  {S}_n = {S}_0 * {u}^{N_u-N_d}
+\end{equation*}
 
-The ${e}$ is used here because we want to calculate the continous compounding return of the stock price over time from the initial price.
-The continous componding formula to calculate the price (P) at time "t" is:
+Since nodes with paths ${u > d}$:
+\begin{equation*}
+  \begin{split}
+    {S}_n
+    & = {S}_0 * {u}^{N_u-N_d} \\
+    & = {S}_0 * {u}^n
+  \end{split}
+\end{equation*}
 
+and nodes with paths ${u < d}$:
+\begin{equation*}
+  \begin{split}
+    {S}_n
+    & = {S}_0 * {u}^{N_u-N_d} \\
+    & = {S}_0 * {1/u^n} \\
+    & = {S}_0 * ({1/u})^n \\
+    & = {S}_0 * {d^n}
+  \end{split}
+\end{equation*}
+
+And this in-turn is derived from the continous compouding formula: %https://en.wikipedia.org/wiki/Compound_interest https://en.wikipedia.org/wiki/Characterizations_of_the_exponential_function
 ${P(t)} = {P}_{0}e^{rt}$
+
+Because the value at each consecutive node is essentially the initial value of the stock compounded by the stock's volatility at a certain period.
 
 * Note the following is commentary of an assumption based on the research done.
 
-The formula for "u" is very similar to the formula for mean absolute deviation (MAD) of the normal distribution:
+This compound rate: ${\sigma\sqrt{2/\pi}}$ for call and ${-\sigma\sqrt{t/n}}$ bears a resemblance and is probably derived from the mean absolute deviation (MAD) of the normal distribution:
 
 MAD = ${\sigma\sqrt{2/\pi}}$
 
-According wikipedia on Average absolute deviation, the "MAD is the average of the absolute deviation from a central point".
+According wikipedia on average/mean absolute deviation, the "MAD is the average of the absolute deviation from a central point".
 Which in this context means that "u" would be componding of the absolute deviation of the underlying stock.
 %(Source: https://en.wikipedia.org/wiki/Average_absolute_deviation )
 
@@ -188,6 +206,8 @@ For simplicity, this paper will use 0.09\% from the current 6-month U.S Treasury
 
 \subsubsection{Generated Tree}
 
+Given the variables for this example, the tree with stock price estimates is generated below:
+
 \begin{figure}
   \centering
   \begin{tikzpicture}[>=stealth, sloped, baseline]
@@ -200,22 +220,22 @@ For simplicity, this paper will use 0.09\% from the current 6-month U.S Treasury
       {
   		  t=0 & t=1 & t=2 \\
   
-  					&  &  ${S}_{u | u}$ \\
+  					&  &  ${}$ \\
   
         	&  {}  &\\
   
-        ${S}_0$  &  &  ${S}_{u | d}$\\
+        ${}$  &  &  ${}$\\
   
         	&  {}  &\\
   
-  					&  &  ${S}_{d | d}$ \\
+  					&  &  ${}$ \\
       };
-  		\node[bullet, left=0mm of tree-2-3.west](b-2-3){};
-      \node[bullet, left=0mm of tree-3-2.west, label=above:${S}_u$](b-3-2){};
-   		\node[bullet, right=7mm of tree-4-1.west](b-4-1){};
-   		\node[bullet, left=0mm of tree-4-3.west](b-4-3){};
-      \node[bullet, left=0mm of tree-5-2.west, label=above:${S}_d$](b-5-2){};
-  		\node[bullet, left=0mm of tree-6-3.west](b-6-3){};
+      \node[bullet, left=0mm of tree-2-3.west, label=above:${\$156.25}$, label=below:${V_c}$](b-2-3){};
+      \node[bullet, left=0mm of tree-3-2.west, label=above:${\$125}$, label=below:${V_c}$](b-3-2){};
+      \node[bullet, right=10mm of tree-4-1.west, label=above:${\$100}$, label=below:${V_c}$](b-4-1){};
+   		\node[bullet, left=0mm of tree-4-3.west, label=above:${\$100}$, label=below:${V_c}$](b-4-3){};
+      \node[bullet, left=0mm of tree-5-2.west, label=above:${\$80}$, label=below:${V_c}$](b-5-2){};
+  		\node[bullet, left=0mm of tree-6-3.west, label=above:${\$64}$, label=below:${V_c}$](b-6-3){};
       \draw[->] (b-4-1) -- (b-3-2) node [midway,above] {$p$};
       \draw[->] (b-4-1) -- (b-5-2) node [midway,below] {$(1-p)$};
       
@@ -225,10 +245,128 @@ For simplicity, this paper will use 0.09\% from the current 6-month U.S Treasury
   		\draw[->] (b-5-2) -- (b-4-3) node [midway,above] {$p$};
       \draw[->] (b-5-2) -- (b-6-3) node [midway,below] {$(1-p)$};
   \end{tikzpicture}
-  \caption{A generic binomial options pricing lattice with 2 periods}
+  \caption{The generated binomial tree with stock prices for 2 periods}
 \end{figure}
 
+\subsection*{2. Option Intrinsic Values}
 
+With the price tree generated in Figure 2, the option's intrinsic value for each node needs to be found because American-style call options can be exercised at any time before expiration.
+For a European-style call option, only the final nodes of the tree/lattice will have the option value because European-style options can only be exercised at expiration. 
+The intrinsic value is essentially the exercise value of the option hence: %(https://en.wikipedia.org/wiki/Binomial_options_pricing_model)
+\begin{eqnarray*}
+  \textrm{\textit{ \textbf{Call Option}}}: \boldsymbol{(V_c)} = Max({S_n - X}, 0) \\
+  \textrm{\textit{ \textbf{Put Option}}}: (V_p) = Max(0, {X - S_n}) 
+\end{eqnarray*}
+
+For a call option, if the difference between the stock price and the strike price (${S_n - X}$)is less than (or equal to) 0, then the option is essentially worthless i.e \$0 because the strike price is the price in which the owner of the call option can purchase the underlying stocks at.
+Since the price of the stock on the market is lower than the strike price, it makes no sense for the owner of the call option to exercise the option and buy at the strike price when he or she purchase the shares at a lower price straight from the market.
+
+The same is applied for the put option, except put options gives the user the right to sell the underlying stock at the certain strike price, thus the setup for the difference is reversed.
+If the difference between the strike price and the stock price (${X - S_n}$) is positive, then it makes sense for the owner to exercise the put option and sell the stocks at the strike price rather than the lower market price.
+
+Our updated tree with the option values are listed below:
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}[>=stealth, sloped, baseline]
+    \matrix (tree) [%
+      matrix of nodes,
+      minimum size=1cm,
+      column sep=2cm,
+      row sep=1cm, nodes={text width=5em}
+      	]
+      {
+  		  t=0 & t=1 & t=2 \\
+  
+  					&  &  ${}$ \\
+  
+        	&  {}  &\\
+  
+        ${}$  &  &  ${}$\\
+  
+        	&  {}  &\\
+  
+  					&  &  ${}$ \\
+      };
+      \node[bullet, left=0mm of tree-2-3.west, label=above:${\$156.25}$, label=below:${\$36.25}$](b-2-3){};
+      \node[bullet, left=0mm of tree-3-2.west, label=above:${\$125}$, label=below:${\$5}$](b-3-2){};
+      \node[bullet, right=10mm of tree-4-1.west, label=above:${\$100}$, label=below:${\$0}$](b-4-1){};
+   		\node[bullet, left=0mm of tree-4-3.west, label=above:${\$100}$, label=below:${\$0}$](b-4-3){};
+      \node[bullet, left=0mm of tree-5-2.west, label=above:${\$80}$, label=below:${\$0}$](b-5-2){};
+  		\node[bullet, left=0mm of tree-6-3.west, label=above:${\$64}$, label=below:${\$0}$](b-6-3){};
+      \draw[->] (b-4-1) -- (b-3-2) node [midway,above] {$p$};
+      \draw[->] (b-4-1) -- (b-5-2) node [midway,below] {$(1-p)$};
+      
+  		\draw[->] (b-3-2) -- (b-2-3) node [midway,above] {$p$};
+      \draw[->] (b-3-2) -- (b-4-3) node [midway,below] {$(1-p)$};
+  
+  		\draw[->] (b-5-2) -- (b-4-3) node [midway,above] {$p$};
+      \draw[->] (b-5-2) -- (b-6-3) node [midway,below] {$(1-p)$};
+  \end{tikzpicture}
+  \caption{Updated tree with option value at the end of the 2 periods}
+\end{figure}
+
+\pagebreak
+\subsection*{3. Backward Induction for Binomial Values}
+With the intrinsic values, backward induction is used to obtain the option values at each node starting from the nodes before expiration/last.
+
+This value calculated is called the "binomial value" and is calculated from the "Risk neutral valuation".
+
+\subsubsection*{Risk neutral valuation}
+%(https://en.wikipedia.org/wiki/Rational_pricing#Risk_neutral_valuation)
+The risk neutral valuation is the valution of an option with risk neutrality assumption.
+
+Risk neutrality assumption is based on the risk-neutral measure which is in-turn based on the fundamental theorem of asset pricing which implies that today's value is the discounted expected value of a future payoff.
+%(https://youtu.be/eG_aRPy1KVE?t=1353) (https://en.wikipedia.org/wiki/Risk-neutral_measure)
+
+The idea of the risk-neutral measure is that it is a probability measure that takes into consideration all future outcomes including the risks involved under its probability distribtion.
+
+
+\subsubsection*{Arbitrage}
+Arbitrage in the simplest terms is taking profit with no risk (a common form of it is profiting from price difference on different markets).
+For the math behind risk-neutral valuation to work, we must assume that there is no arbitrage.
+
+We need to confirm these statements to be true:
+\begin{align*}
+  & {r > 0} \\
+  & S_d \leq (1+r)S \leq S_u
+\end{align*}
+
+
+\subsubsection*{Binomial Value}
+The binomial value is calculated by:
+\begin{align*}
+  & C_{t-\Delta t, n} = e^{-r\Delta t} [(p)C_{t,n} + (1-p)C_{t,n+1}] \\
+  & \textrm{where "n" is the nodes of a generation (NOT the generation itself!)}
+\end{align*}
+
+
+Which in plain english is:
+\begin{equation*}
+  \textrm{\textit{Present Option Value}} = \frac{\textrm{[${p}$ * \textit{Option Up} + (1 - ${p}$) \textit{Option Down}]}}{\textrm{\textit{Compounded risk free interest rate}}}
+\end{equation*}
+
+The origin of this formula came from the formula for present value: %[This took me a long time to break down and find out]
+\begin{equation*}
+  P = \frac{F}{(1+r)^t}
+\end{equation*}
+
+Where F represents the future value and in this context will be the expected value of returns from our options at period n:
+\begin{equation*}
+  F = (p)C_{t,n} + (1-p)C_{t,n+1}
+\end{equation*}
+and since we know that expected value is countable/discrete because we are calculating based on countable and finite periods, our formula is:
+\begin{equation*}
+  \begin{split}
+    E[V] 
+    & = \sum\limits_{n=1}^{2} p_n C_{t,n} \\
+    & = (p) C_{t,n} + (1-p) C_{t,n+1}
+    & = p_1 C_{1,1} + p_2 V_{2,2} \\
+    & = (p) S_u + (1-p) S_d
+  \end{split}
+\end{equation*}
+
+Note that the limit (n) here is 2 because there are only 2 outcomes: up and down, for our expected value to calculate off.
 
 
 
