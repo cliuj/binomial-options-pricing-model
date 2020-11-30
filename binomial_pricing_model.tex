@@ -4,6 +4,10 @@
 \usepackage{hyperref}
 \usepackage{indentfirst}
 
+\usepackage{enumitem}[labelindent=5cm]
+
+\usepackage[bottom]{footmisc}
+
 \usepackage{tikz}
 \usepackage{caption}
 \usetikzlibrary{matrix, positioning}
@@ -16,6 +20,7 @@
 \geometry{margin=1in}
 
 \begin{document}
+\setlength\parindent{1cm}
 
 \title{Binomial Options Pricing Model (CRR Version)\\
 \large MATH 3332 - Probability and Inference}
@@ -33,51 +38,56 @@ The different types of markets can be accessed depends on the features provided 
 \medskip
 
 Since assets exchanged on the market are based on a seller's chosen price, one must account for the valuation of the asset to avoid over paying.
-The valuation of an asset is based on the future expected cash flow \cite{damodaran} and is especially important when exchanging assets because pricing is typically determined by the seller and influenced by the buyers.
-It is important to note here that because asset valuation is based on future expected cash flow, any calculated valuation such as intrinsic (justified) valuation is considered theoretical.
+The valuation of an asset is based on the future expected cash flow\cite{damodaran} and is especially important when exchanging assets because pricing is typically determined by the seller and influenced by the buyers.
+It is important to note here that because asset valuation is based on future expected cash flow, any calculated valuation such as intrinsic/justified valuation is considered theoretical.
 This is why quantitative analysis is heavily used in asset valuation as the various mathematical models and technicals/fundamentals are used to estimate the valution of an asset.
-For stocks and bonds, there are various ways to obtain the intrinsic value through different mathematical models; some of which are listed Obaidullah in his stock valuations article \cite{obaidullahxplaind}.
+For stocks and bonds, there are various ways to obtain the intrinsic value through different mathematical models.
+These will not be covered in this paper, but some of them can be viewed on Obaidullah's stock valuations article\cite{obaidullahxplaind}.
 
 \medskip
 
-For financial derivatives, valuation is a lot harder to calculate because they are essentially contracts that \textit{derive} their value from the performance of the underlying entity \cite{derivativefinancewikipedia}, thus various factors in addition to the factors affecting the underlying stock value can alter the valuation of the option contract. 
-The financial derivative explained and valuated in this paper is the option contract. 
-Option contracts gives the buyer the right to "exercise" the contract which means the contract holder can either buy or sell the underlying entity (usually stock) at a fixed price once a certain price threshold called the strike price is met.
-In order to profit from exercising the option, the amount generated from buying or selling at the strike price must cover the cost of the option.
-All option contracts come with an expiration time.
-If the strike price condition is not met for the option contract, then the contract is considered worthless and will "expire" which results in a loss based on the amount paid for on the option contract.
-This "expiration" is also called "maturity".
-An option contract to buy the underlying entity is called a call and an option contract to sell the underlying entity is called a put.
-Orne may buy a call or put option on the market and then sell that same option contract on the market.
+For financial derivatives, valuation is a lot harder to calculate because they are essentially contracts that \textit{derive} their value from the performance of the underlying entity\cite{derivativefinancewikipedia}, thus various factors in addition to the factors affecting the underlying stock value can alter the valuation of the option contract. 
 
-The benefit of options is the leveraged returns and its main disadvantage is the leveraged risk.
-The price of an option contract is essentially the premium fee paid per share times the number of shares listed in the contract (which is typically 100 shares).
-This means if an option contract average bid-ask price was \$0.42/share, then the actual amount needed to purchase the option would be \$0.42 x 100= \$42.00.
-This also means that if the average bid-ask spread of the option increases from \$0.42/share to \$0.80/share, then the option can be resold on the market for a \$0.38/share or \$38.00 profit, which is a \~90.47\% increase from the initial investment.
-This effect also works in the opposite direction, where if the average bid-ask price of the option decreased to \$0.08, then there would be a loss of \~80.95\% from the initial investment.
+\medskip
+
+In this paper, we will focus on a specific financial derivative called the options contract with stocks as its derivation.
+An options contract gives the buyer the right to ``exercise" the contract which means the contract holder can either buy or sell the ${x}$ number\footnote{The number of underlying stock in a single option is usually 100 stocks.} of underlying stock at a fixed price called the stike price once the underlying stock's price passes the strike price\footnote{In the case of "puts" (right to sell), the stock's price must be lower than the strike price. In the case of "calls" (right to buy), the stock's price must be higher than the strike price. }.
+They are essentially reservations to buy or sell ${x}$ number of stock.
+In order to profit from exercising the option, the amount generated from buying or selling at the strike price must cover the cost of the option.
+All option contracts come with an expiration time\footnote{Also known as ``maturity"}.
+If the strike price condition is not met for the option contract, then the contract will ``expire" and is considered worthless because the owner of the option can get a better deal at market price instead of the option's strike price.
+An option contract to buy the underlying entity is called a call and an option contract to sell the underlying entity is called a put.
+One may buy a call or put option on the market and then sell that same option contract on the market.
+
+\medskip
 
 The famous mathematical model called the Black-Scholes Model developed by Fischer Black, Myron Scholes, and Robert C. Merton was able to give a theoretical valuation of European-style options \cite{blackscholesmodelwikipedia}.
-There is emphasis on "European-style" options in this case because the Black-Scholes model (by itself) is only accurate on the European-style options.
-European-style options only allow exercise on expiration/maturity, while American-style options allow the holder to exercise before expiration.
+There is emphasis on ``European-style" options in this case because the Black-Scholes model (by itself) is only accurate on the European-style options.
+European-style options only allow exercise on expiration, while American-style options allow the holder to exercise before expiration.
 This early exercise of the American-style options makes it difficult to find the optimal time to exercise the option for maximum gains \cite{blackscholesmodelwikipedia} as the Black-Scholes model cannot account for the various outcomes before expiration. 
 
+\medskip
+
 The binomial options pricing model overcame this limitation for the American-style options \cite{bopmwikipedia}.
-The naming comes from the binomial probability distribution.
-Its feature of generating "nodes" that represent different possible outcomes over a period of time allows for better insight into the optimal stop.
+Its main feature of generating ``nodes" that represent different possible outcomes over a period of time allows for better insight into the optimal stop.
 It was originally proposed by William Sharpe in 1978, but was formalized in 1979 by John Carrington Cox, Stephen Ross, and Mark Edward Rubenstein \cite{bopmwikipedia}.
 
-The name "binomial options pricing model" is a generic name that encompasses all forms \footnote{different versions i.e using different formulas} of different binomial options pricing models.
-Cox, Ross, and Rubenstein's version of the binomial options pricing model became commonly known as the "CRR model`` \cite{thebinomialmodelcornell}.
+\medskip
 
-In this paper, "binomial options pricing model`` will be synonymous to the CRR model and for the sake of keeping consistency, all formulas and calculations demonstrated here will be based on the CRR model.
+The name ``binomial options pricing model" is a generic name that encompasses all forms\footnote{different versions i.e using different formulas} of different binomial options pricing models.
+Cox, Ross, and Rubenstein's version of the binomial options pricing model became commonly known as the ``CRR model" \cite{thebinomialmodelcornell}.
+
+\medskip
+
+In this paper, ``binomial options pricing model" will be synonymous to the CRR model and for the sake of keeping consistency and simplicity, all formulas and calculations demonstrated here will be based on the CRR model.
 
 \pagebreak
 
 \section*{Methods}
 
 The binomial options pricing model aims to find the valuation of the chosen option at discrete times based on various inputs given.
-It achieves this by generating a binomial decision tree where each node represents the valuation of the option at a certain point in time.
-This binomial tree is more of a lattice of Bernoulli processes in which each path represents a Bernoulli process because at each (non end/start) node there are two directional outcomes of the stock: up or down.
+It achieves this by generating a binomial decision tree\footnote{Technically a lattice.} where each node represents the valuation of the option at a certain point in time.
+This binomial lattice is composed of Bernoulli processes because at each (non end/start) node there are two directional outcomes of the stock: up or down.
 This also means that the probabilities for up and down movement are ${p}$ and ${1-p}$ respectively where ${0 \leq p \leq 1}$. 
 Figure \ref{fig:genericlattice} gives a generalized 2-period example of a binomial options lattice this:
 \begin{figure}[H]
@@ -87,27 +97,57 @@ Figure \ref{fig:genericlattice} gives a generalized 2-period example of a binomi
       matrix of nodes,
       minimum size=1cm,
       column sep=2cm,
-      row sep=1cm, nodes={text width=5em}
+      row sep=1.2cm, nodes={text width=5em}
       	]
       {
   		  t=0 & t=1 & t=2 \\
   
-            &  &  ${}$ \\
+            &  &  {} \\
   
         	&  {}  &\\
   
-        ${S}_0$  &  &  ${}$\\
+        {}  &  &  {}\\
   
         	&  {}  &\\
   
-            &  &  ${}$ \\
+            &  &  {} \\
       };
-      \node[bullet, left=0mm of tree-2-3.west, label=above:${u^2S}$, label=below:${V_{2,n}}$](b-2-3){};
-      \node[bullet, left=0mm of tree-3-2.west, label=above:${uS}$, label=below:${V_{1,n}}$](b-3-2){};
-      \node[bullet, right=7mm of tree-4-1.west](b-4-1){};
-      \node[bullet, left=0mm of tree-4-3.west, label=above:${udS}$, label=below:${V_{2,n}}$](b-4-3){};
-      \node[bullet, left=0mm of tree-5-2.west, label=above:${dS}$, label=below:${V_{1,n}}$](b-5-2){};
-      \node[bullet, left=0mm of tree-6-3.west, label=above:${u^2S}$, label=below:${V_{2,n}}$](b-6-3){};
+      \node[bullet, left=0mm of tree-2-3.west,
+        label={[label distance=1mm]90:${u^2S}$},
+        label={[label distance=2mm]0:${EV_{2,n}}$},
+        label={[label distance=2mm]270:${BV_{2,n}}$}
+        ](b-2-3){};
+
+      \node[bullet, left=0mm of tree-3-2.west,
+        label={[label distance=1mm]90:${uS}$},
+        label={[label distance=2mm]0:${EV_{1,n}}$},
+        label={[label distance=2mm]270:${BV_{1,n}}$}
+        ](b-3-2){};
+
+      \node[bullet, right=7mm of tree-4-1.west,
+        label={[label distance=1mm]90:${S_0}$},
+        label={[label distance=2mm]0:${EV_{0,n}}$},
+        label={[label distance=2mm]270:${BV_{0,n}}$}
+        ](b-4-1){};
+
+      \node[bullet, left=0mm of tree-4-3.west,
+        label={[label distance=1mm]90:${udS}$},
+        label={[label distance=2mm]0:${EV_{2,n}}$},
+        label={[label distance=2mm]270:${BV_{2,n}}$}
+        ](b-4-3){};
+
+      \node[bullet, left=0mm of tree-5-2.west,
+        label={[label distance=1mm]90:${dS}$},
+        label={[label distance=2mm]0:${EV_{1,n}}$},
+        label={[label distance=2mm]270:${BV_{1,n}}$}
+        ](b-5-2){};
+
+      \node[bullet, left=0mm of tree-6-3.west,
+        label={[label distance=1mm]90:${u^2S}$},
+        label={[label distance=2mm]0:${EV_{2,n}}$},
+        label={[label distance=2mm]270:${BV_{2,n}}$}
+        ](b-6-3){};
+
       \draw[->] (b-4-1) -- (b-3-2) node [midway,above] {$p$};
       \draw[->] (b-4-1) -- (b-5-2) node [midway,below] {$(1-p)$};
       
@@ -121,62 +161,72 @@ Figure \ref{fig:genericlattice} gives a generalized 2-period example of a binomi
   \label{fig:genericlattice}
 \end{figure}
 
+\pagebreak
+There are multiple ways to obtain the valuation of the option using this model.
+The novel feature of this model is that option valuation can be achieved without the need of probabilities.
+This same feature is what made Black-Scholes famous in that the true probabilities and expected returns were uneccessary to obtain the valuation of the given option contract\cite{brigidavideo}.
+Two arbitrage-free pricing methods through ``delta-hedging" and replicating portfolio can achieve the same valuation and both of which do not need the probabilities at each outcome.
+Both of these methods are outside the scope of this paper, and the instead this paper will focus on the probability method used to obtain the value of an option.
 
-There are two ways to obtain the valuation of the option using this model.
-One way is thorugh a method called "delta-hedging" and the other is to use the probabilities for each node path.
-The novel feature of this model is that option valuation can be achieved without the need of probabilities through delta-hedging.
-If obtaining the valuation through probabilities, the expected return would be based on the probabilities inputed, but the problem is that the true probabilities are unknown.
-This same feature is what made Black-Scholes famous in that the true probabilities and expected returns were uneccessary to obtain the valuation of the given option contract. (https://www.youtube.com/watch?v=PZrmOh2nZus)
+\bigskip
 
-For this paper, only the probabilities method will be used to obtain the valuation of the given option. 
+The process to evaluate the given option is described as a three step process\cite{bopmwikipedia}:
+\begin{enumerate}[leftmargin=2\parindent]
+  \item Price tree generation
+  \item Calculation of option value at each final node
+  \item Sequential calculation of the option value at each preceding node
+\end{enumerate}
 
-The process to evaluate the given option is described as a three step process: %(https://en.wikipedia.org/wiki/Binomial_options_pricing_model)
-
-1. Price tree generation
-2. Calculation of option value at each final node
-3. Sequential calculation of the option value at each preceding node
+\bigskip
 
 To best describe this method, it's best to have an example.
-
 Here are some variables that need to be established:
 
-Let ${\textit{\textbf{(S)}}}$: \textit{\textbf{Stock Price}} = 100
+\begin{itemize}[label={}]
+  \item Let \textit{\textbf{Stock Price(S)}} = 100
+  \item Let \textit{\textbf{Strike Price(X)}} = 120
+  \item Let \textit{\textbf{Risk-Free Interest Rate(r)}} = 0.09\%
+  \item Let \textit{\textbf{Up Factor(u)}} = 1.25
+  \item Let \textit{\textbf{Down Factor(d)}} = ${\frac{1}{u} = \frac{1}{1.25} = 0.80}$
+  \item Let \textit{\textbf{Time in Year(s) (T)}}  = 1
+  \item Let \textit{\textbf{Time Periods (t)}}  = 2 
+\end{itemize}
 
-Let ${\textit{\textbf{(X)}}}$: \textit{\textbf{Strike Price}} = 120
+\bigskip
 
-Let ${\textit{\textbf{(r)}}}$: \textit{\textbf{Risk-Free Interest Rate}} = 0.09\%
-
-Let ${\textit{\textbf{(u)}}}$: \textit{\textbf{Up Factor}} = 1.25
-
-Let ${\textit{\textbf{(d)}}}$: \textit{\textbf{Down Factor}} = 1/u = 1/1.25 = 0.80
-
-Let ${\textit{\textbf{(T)}}}$: \textit{\textbf{Time (year(s))}}  = 1
-
-Let ${\textit{\textbf{(t)}}}$: \textit{\textbf{Time Periods}}  = 2 
+Explaination for the newly introduced variables:
+\begin{itemize}[label={}]
+  \item \textbf{Risk-Free Interest Rate} - Will be explained in the upcoming section
+  \item \textbf{Up Factor} - The factor that the stock price moves up at for each period (t)
+  \item \textbf{Down Factor} - The factor that the stock price moves down at for each period (t)
+  \item \textbf{Time in Years} - The duration of the entire model in years\footnote{So if our duration is 0.5, then our entire model is lasting half a year}.
+  \item \textbf{Time Periods} - The number of time periods (generations) in a generated binomial options pricing model
+\end{itemize}
 
 \pagebreak
 \subsection*{1. Price Tree Generation}
 \subsubsection*{Establishing Movement Factors}
-"u": the fixed factor in which the price of the underlying stock increases by.
-"d": the fixed factor in which the price of the underlying stock decrease by.
+The initial step in generating the lattice is to obtain the up(${u}$) and down(${d}$) factors. From the original 1979 CRR paper, the up and down factors are calculated using\cite{bopmwikipedia}\cite{crrpaper}:
+\begin{align*}
+    u &= e^{\sigma\sqrt{t/n}} \\
+    d &= e^{-\sigma\sqrt{t/n}} = \frac{1}{u} \\
+    \text{where}~\sigma &= \text{the volatility (standard deviation) of the stock price} \\
+    t &= \text{the duration\footnote{This is essentially the value of $\frac{T}/{t}$ where ${t}$ in this case is the number of periods in the model}of time period} \\
+    n &= \text{the duration\footnote{The both durations must have the same unit of time} until expiration}
+\end{align*}
 
-It is suggested that in the original 1979 CRR paper that:
+\medskip
+
+The rate of increase in the factors: ${\sigma\sqrt{2/\pi}}$ and ${-\sigma\sqrt{t/n}}$ were \textit{probably} derived from the mean absolute deviation (MAD) formula since both fomulas bear a resemblence to the MAD's formula\cite{madwikipedia}:
 \begin{equation*}
-  \setlength{\jot}{10pt}
-  \begin{split}
-    u
-    & = e^{\sigma\sqrt{t/n}}
-    \\
-    d
-    & = e^{-\sigma\sqrt{t/n}} = \frac{1}{u}
-  \end{split}
+  MAD = \sigma\sqrt{2/\pi}
 \end{equation*}
 
-In which:
-${\sigma}$ represents the volatility (standard deviation) of the stock price (add footnote about this) %https://en.wikipedia.org/wiki/Volatility_(finance)
-${t/n}$ represents the time where "t" is the fixed length of time left to expiration and "n" is the number of periods left before expiration
+\noindent Which seems reasonable to believe in this context as both ${u}$ and ${d}$ are essentially compounding the volatility (standard deviation) over a period of time from the initial price of a stock.
 
-One neat thing about these formulas is that the stock price at a certain time period ${n}$ can be calculated with this formula:
+\bigskip
+
+One neat thing about these formulas is that the stock price at a certain time period ${n}$ can be calculated with:
 \begin{equation*}
   {S}_n = {S}_0 \cdot {u}^{N_u-N_d}
 \end{equation*}
@@ -186,8 +236,7 @@ Since nodes with paths ${u > d}$:
   \setlength{\jot}{10pt}
   \begin{split}
     {S}_n
-    & = {S}_0 \cdot {u}^{N_u-N_d}
-    \\
+    & = {S}_0 \cdot {u}^{N_u-N_d} \\
     & = {S}_0 \cdot {u}^n
   \end{split}
 \end{equation*}
@@ -197,12 +246,10 @@ Nodes with paths ${u < d}$:
   \setlength{\jot}{10pt}
   \begin{split}
     {S}_n
-    & = {S}_0 \cdot {u}^{N_u-N_d}
-    \\
-    & = {S}_0 \cdot {1/u^n}
-    \\
-    & = {S}_0 \cdot ({1/u})^n
-    \\
+    & = {S}_0 \cdot {u}^{N_u-N_d} \\
+    & = {S}_0 \cdot {u^{-n}} \\
+    & = {S}_0 \cdot {1/u^n} \\
+    & = {S}_0 \cdot ({1/u})^n \\
     & = {S}_0 \cdot {d^n}
   \end{split}
 \end{equation*}
@@ -212,42 +259,25 @@ And nodes with paths ${u = d}$:
   \setlength{\jot}{10pt}
   \begin{split}
     {S}_n
-    & = {S}_0 \cdot {u}^{N_u-N_d}
-    \\
-    & = {S}_0 \cdot {u^0}
-    \\
-    & = {S}_0 \cdot 1
-    \\
+    & = {S}_0 \cdot {u}^{N_u-N_d} \\
+    & = {S}_0 \cdot {u^0} \\
+    & = {S}_0 \cdot 1 \\
     & = {S}_0
   \end{split}
 \end{equation*}
 
-
-And this in-turn is derived from the continous compouding formula: %https://en.wikipedia.org/wiki/Compound_interest https://en.wikipedia.org/wiki/Characterizations_of_the_exponential_function
+These formulas are derived from the continous compouding formula\cite{continouscompoundingformulawikipedia}\cite{exponentcharacterizationswikipedia}:
 ${P(t)} = {P}_{0}e^{rt}$
+because the value at each consecutive node is essentially the initial value of the stock compounded by the value of the stock influenced by the movement factor at a certain period.
 
-Because the value at each consecutive node is essentially the initial value of the stock compounded by the stock's movement factor at a certain period.
-
-* Note the following is commentary of an assumption based on the research done.
-
-This compound rate: ${\sigma\sqrt{2/\pi}}$ for call and ${-\sigma\sqrt{t/n}}$ bears a resemblance and is probably derived from the mean absolute deviation (MAD) of the normal distribution:
-\begin{equation*}
-  MAD = \sigma\sqrt{2/\pi}
-\end{equation*}
-
-According wikipedia on average/mean absolute deviation, the "MAD is the average of the absolute deviation from a central point".
-Which in this context means that "u" would be componding of the absolute deviation of the underlying stock.
-%(Source: https://en.wikipedia.org/wiki/Average_absolute_deviation )
 
 \subsubsection*{Risk-free interest rate}
+Risk-free\footnote{Realistically, there's probably nothing that's truly risk-free unless it's arbitrage} interest rate is the value that represents the safest interest yield one would earn if they were to put the money in that asset.
+The most common risk-free interest used is the U.S Treasury bond yields as the bonds are considered the safest\footnote{The risk is so low that its negligible} assets to obtain interest.
 
-"r": the risk-free interest rate %[insert footnote here about what it is]
-This value represents the safest interest one would get if they were to put the money in that asset.
-The most common risk-free interest used is the U.S Treasury bond yields as the bonds are considered the safest (the risk is so low that its negligible) assets to obtain interest.
+For simplicity, this paper will use 0.09\%\footnote{This was the yield listed on November 25, 2020} from the current 6-month\footnote{6-months because we have our expiration at 1 year and only 2 time periods i.e 2 6-month periods} U.S Treasury bill as the risk-free interest rate for calculations.
 
-For simplicity, this paper will use 0.09\% from the current 6-month U.S Treasury bill as the risk-free interest rate for calculations.
-%(According to https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yield for Nov 25, 2020)
-
+\pagebreak
 \subsubsection*{Generated Tree}
 Given the variables for this example, the tree with stock price estimates is generated below:
 \begin{figure}[H]
@@ -257,27 +287,58 @@ Given the variables for this example, the tree with stock price estimates is gen
       matrix of nodes,
       minimum size=1cm,
       column sep=2cm,
-      row sep=1cm, nodes={text width=5em}
+      row sep=1.2cm, nodes={text width=5em}
       	]
       {
   		  t=0 & t=1 & t=2 \\
   
-  					&  &  ${}$ \\
+  					&  &  {} \\
   
         	&  {}  &\\
   
-        ${}$  &  &  ${}$\\
+        {}  &  &  {}\\
   
         	&  {}  &\\
   
-  					&  &  ${}$ \\
+  					&  &  {} \\
       };
-      \node[bullet, left=0mm of tree-2-3.west, label=above:${\$156.25}$, label=below:${V_{2,n}}$](b-2-3){};
-      \node[bullet, left=0mm of tree-3-2.west, label=above:${\$125}$, label=below:${V_{1,n}}$](b-3-2){};
-      \node[bullet, right=10mm of tree-4-1.west, label=above:${\$100}$, label=below:${V_{0,n}}$](b-4-1){};
-   		\node[bullet, left=0mm of tree-4-3.west, label=above:${\$100}$, label=below:${V_{2,n}}$](b-4-3){};
-      \node[bullet, left=0mm of tree-5-2.west, label=above:${\$80}$, label=below:${V_{1,n}}$](b-5-2){};
-  		\node[bullet, left=0mm of tree-6-3.west, label=above:${\$64}$, label=below:${V_{2,n}}$](b-6-3){};
+
+      \node[bullet, left=0mm of tree-2-3.west,
+        label={[label distance=1mm]90:${\$156.25}$},
+        label={[label distance=2mm]0:${EV_{2,n}}$},
+        label={[label distance=2mm]270:${BV_{2,n}}$}
+        ](b-2-3){};
+
+      \node[bullet, left=0mm of tree-3-2.west,
+        label={[label distance=1mm]90:${\$125}$},
+        label={[label distance=2mm]0:${EV_{1,n}}$},
+        label={[label distance=2mm]270:${BV_{1,n}}$}
+        ](b-3-2){};
+
+      \node[bullet, right=7mm of tree-4-1.west,
+        label={[label distance=1mm]90:${\$100}$},
+        label={[label distance=2mm]0:${EV_{0,n}}$},
+        label={[label distance=2mm]270:${BV_{0,n}}$}
+        ](b-4-1){};
+
+      \node[bullet, left=0mm of tree-4-3.west,
+        label={[label distance=1mm]90:${\$100}$},
+        label={[label distance=2mm]0:${EV_{2,n}}$},
+        label={[label distance=2mm]270:${BV_{2,n}}$}
+        ](b-4-3){};
+
+      \node[bullet, left=0mm of tree-5-2.west,
+        label={[label distance=1mm]90:${\$80}$},
+        label={[label distance=2mm]0:${EV_{1,n}}$},
+        label={[label distance=2mm]270:${BV_{1,n}}$}
+        ](b-5-2){};
+
+      \node[bullet, left=0mm of tree-6-3.west,
+        label={[label distance=1mm]90:${\$64}$},
+        label={[label distance=2mm]0:${EV_{2,n}}$},
+        label={[label distance=2mm]270:${BV_{2,n}}$}
+        ](b-6-3){};
+
       \draw[->] (b-4-1) -- (b-3-2) node [midway,above] {$p$};
       \draw[->] (b-4-1) -- (b-5-2) node [midway,below] {$(1-p)$};
       
@@ -291,20 +352,24 @@ Given the variables for this example, the tree with stock price estimates is gen
 \end{figure}
 
 
-\subsection*{2. Option Intrinsic Values}
-With the price tree generated in Figure 2, the option's intrinsic value for each node needs to be found because American-style call options can be exercised at any time before expiration.
-For a European-style call option, only the final nodes of the tree/lattice will have the option value because European-style options can only be exercised at expiration. 
-The intrinsic value is essentially the exercise value of the option hence: %(https://en.wikipedia.org/wiki/Binomial_options_pricing_model)
+\subsection*{2. Option Exercise Values}
+With the price tree generated in Figure 2, the option's exercise\footnote{This is also referred to as the intrinsic (face-value) value} value for each node needs to be found because American-style call options can be exercised at any time before expiration.
+For a European-style call option, only the final nodes of the lattice will have the option value because European-style options can only be exercised at expiration. 
+The exercise value is calculated \cite{bopmwikipedia} by:
 \begin{eqnarray*}
-  \textrm{\textit{ \textbf{Call Option}}}: \boldsymbol{(V_{t,n})} = Max({S_n - X}, 0) \\
-  \textrm{\textit{ \textbf{Put Option}}}: (V_p) = Max(0, {X - S_n}) 
+  \text{\textit{Call Option (${EV_t,n}$)}} = Max({S_n - X}, 0) \\
+  \text{\textit{Put Option (${EV_t,n}$)}} = Max(0, {X - S_n}) 
 \end{eqnarray*}
 
-For a call option, if the difference between the stock price and the strike price (${S_n - X}$)is less than (or equal to) 0, then the option is essentially worthless i.e \$0 because the strike price is the price in which the owner of the call option can purchase the underlying stocks at.
+For a call option, if the difference between the stock price and the strike price (${S_n - X}$) is less than (or equal to) 0, then the option is essentially worthless i.e \$0 because the strike price is the price in which the owner of the call option can purchase the underlying stocks at.
 Since the price of the stock on the market is lower than the strike price, it makes no sense for the owner of the call option to exercise the option and buy at the strike price when he or she purchase the shares at a lower price straight from the market.
+
+\medskip
 
 The same is applied for the put option, except put options gives the user the right to sell the underlying stock at the certain strike price, thus the setup for the difference is reversed.
 If the difference between the strike price and the stock price (${X - S_n}$) is positive, then it makes sense for the owner to exercise the put option and sell the stocks at the strike price rather than the lower market price.
+
+\bigskip
 
 Our updated tree with the option values are listed below:
 \begin{figure}[H]
@@ -314,27 +379,58 @@ Our updated tree with the option values are listed below:
       matrix of nodes,
       minimum size=1cm,
       column sep=2cm,
-      row sep=1cm, nodes={text width=5em}
+      row sep=1.2cm, nodes={text width=5em}
       	]
       {
   		  t=0 & t=1 & t=2 \\
   
-  					&  &  ${}$ \\
+  					&  &  {} \\
   
         	&  {}  &\\
   
-        ${}$  &  &  ${}$\\
+        {}  &  &  {}\\
   
         	&  {}  &\\
   
-  					&  &  ${}$ \\
+  					&  &  {} \\
       };
-      \node[bullet, left=0mm of tree-2-3.west, label=above:${\$156.25}$, label=below:${\$36.25}$](b-2-3){};
-      \node[bullet, left=0mm of tree-3-2.west, label=above:${\$125}$, label=below:${\$5}$](b-3-2){};
-      \node[bullet, right=10mm of tree-4-1.west, label=above:${\$100}$, label=below:${\$0}$](b-4-1){};
-   		\node[bullet, left=0mm of tree-4-3.west, label=above:${\$100}$, label=below:${\$0}$](b-4-3){};
-      \node[bullet, left=0mm of tree-5-2.west, label=above:${\$80}$, label=below:${\$0}$](b-5-2){};
-  		\node[bullet, left=0mm of tree-6-3.west, label=above:${\$64}$, label=below:${\$0}$](b-6-3){};
+
+      \node[bullet, left=0mm of tree-2-3.west,
+        label={[label distance=1mm]90:${\$156.25}$},
+        label={[label distance=2mm]0:${\$36.25}$},
+        label={[label distance=2mm]270:${BV_{2,n}}$}
+        ](b-2-3){};
+
+      \node[bullet, left=0mm of tree-3-2.west,
+        label={[label distance=1mm]90:${\$125}$},
+        label={[label distance=2mm]0:${\$5}$},
+        label={[label distance=2mm]270:${BV_{1,n}}$}
+        ](b-3-2){};
+
+      \node[bullet, right=7mm of tree-4-1.west,
+        label={[label distance=1mm]90:${\$100}$},
+        label={[label distance=2mm]0:${\$0}$},
+        label={[label distance=2mm]270:${BV_{0,n}}$}
+        ](b-4-1){};
+
+      \node[bullet, left=0mm of tree-4-3.west,
+        label={[label distance=1mm]90:${\$100}$},
+        label={[label distance=2mm]0:${\$0}$},
+        label={[label distance=2mm]270:${BV_{2,n}}$}
+        ](b-4-3){};
+
+      \node[bullet, left=0mm of tree-5-2.west,
+        label={[label distance=1mm]90:${\$80}$},
+        label={[label distance=2mm]0:${\$0}$},
+        label={[label distance=2mm]270:${BV_{1,n}}$}
+        ](b-5-2){};
+
+      \node[bullet, left=0mm of tree-6-3.west,
+        label={[label distance=1mm]90:${\$64}$},
+        label={[label distance=2mm]0:${\$0}$},
+        label={[label distance=2mm]270:${BV_{2,n}}$}
+        ](b-6-3){};
+
       \draw[->] (b-4-1) -- (b-3-2) node [midway,above] {$p$};
       \draw[->] (b-4-1) -- (b-5-2) node [midway,below] {$(1-p)$};
       
@@ -349,8 +445,8 @@ Our updated tree with the option values are listed below:
 
 \pagebreak
 \subsection*{3. Backward Induction for Binomial Values}
-With the intrinsic values calculated in the previous step, backward induction is used to obtain the option values at each node starting from the nodes before expiration/last.
-This value calculated is called the "binomial value" and is calculated from the "Risk neutral valuation".
+With the exercise values calculated in the previous step, backward induction is used to obtain the option values at each node starting from the nodes before expiration/last.
+This value calculated is called the "binomial value" and is calculated from the "risk neutral valuation".
 
 \subsubsection*{Risk neutral valuation}
 %(https://en.wikipedia.org/wiki/Rational_pricing#Risk_neutral_valuation)
@@ -679,16 +775,34 @@ The source code for this application can be found in the same repository that ho
     "Binomial options pricing model".
     \\
     \href{https://en.wikipedia.org/wiki/Binomial\_options\_pricing\_model}{https://en.wikipedia.org/wiki/Binomial\_options\_pricing\_model}
+
+  \bibitem{volatilityfinancewikipedia}
+    "Volatility (finance)".
+    \\
+    \href{https://en.wikipedia.org/wiki/Volatility\_(finance)}{https://en.wikipedia.org/wiki/Volatility\_(finance)}
+
+  \bibitem{madwikipedia}
+    "Average absolute deviation"
+    \\
+    \href{https://en.wikipedia.org/wiki/Average\_absolute\_deviation}{https://en.wikipedia.org/wiki/Average\_absolute\_deviation}
+
+  \bibitem{continouscompoundingformulawikipedia}
+    "Compound interest". \\
+    \href{https://en.wikipedia.org/wiki/Compound\_interest}{https://en.wikipedia.org/wiki/Compound\_interest}
+
+  \bibitem{exponentcharacterizationswikipedia}
+    "Characterizations of the exponential function". \\
+    \href{https://en.wikipedia.org/wiki/Characterizations\_of\_the\_exponential\_function}{https://en.wikipedia.org/wiki/Characterizations\_of\_the\_exponential\_function}
   
   \bibitem{damodaran}
     Aswath Damodaran.
-    \textit{Investment Valuation: Tools and Techniques for Determining the Value of Any Asset, Third Edition}
+    \textit{Investment Valuation: Tools and Techniques for Determining the Value of Any Asset, Third Edition}.
     [Chapter 5: Option Pricing Theory and Models], 87-110,
     ISBN: \textit{9781118011522},
     (2012)
 
   \bibitem{thebinomialmodelcornell}
-    "The Binomial Model"
+    "The Binomial Model".
     \href{https://pi.math.cornell.edu/~mec/Summer2008/spulido/Binomial.html}{https://pi.math.cornell.edu/~mec/Summer2008/spulido/Binomial.html}
 
   \bibitem{obaidullahxplaind}
@@ -696,6 +810,22 @@ The source code for this application can be found in the same repository that ho
     "Stock Valuation".
     \\
     \href{https://xplaind.com/746919/stock-valuation}{https://xplaind.com/746919/stock-valuation}
+
+  \bibitem{brigidavideo}
+    Matt Brigida.
+    "FIN 376: Binomial Option Pricing and Delta Hedging".
+    3:40-4:25.
+    \\
+    \href{https://www.youtube.com/watch?v=PZrmOh2nZus}{https://www.youtube.com/watch?v=PZrmOh2nZus}
+
+  \bibitem{crrpaper}
+    John Carrington Cox, Stephen Ross, and Mark Edward Rubenstein
+    "Option pricing: A simplified approach".
+    (1979)
+
+  \bibitem{tbondyield}
+    "Daily Treasury Yield Curve Rates".
+    \href{https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yield}{https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yield}
 
 
 \end{thebibliography}
