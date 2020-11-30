@@ -1,5 +1,4 @@
-\documentclass[12pt, letterpaper]{article}
-\usepackage{float}
+\documentclass[12pt, letterpaper]{article}\usepackage{float}
 \usepackage{amsmath}
 \usepackage{hyperref}
 \usepackage{indentfirst}
@@ -113,39 +112,36 @@ Figure \ref{fig:genericlattice} gives a generalized 2-period example of a binomi
             &  &  {} \\
       };
       \node[bullet, left=0mm of tree-2-3.west,
-        label={[label distance=1mm]90:${u^2S}$},
-        label={[label distance=2mm]0:${EV_{2,n}}$},
-        label={[label distance=2mm]270:${BV_{2,n}}$}
+        label={[label distance=1mm]90:${u^2S_0}$},
+        label={[label distance=2mm]0:${XV_{t,n}}$}
         ](b-2-3){};
 
       \node[bullet, left=0mm of tree-3-2.west,
-        label={[label distance=1mm]90:${uS}$},
-        label={[label distance=2mm]0:${EV_{1,n}}$},
-        label={[label distance=2mm]270:${BV_{1,n}}$}
+        label={[label distance=1mm]90:${uS_0}$},
+        label={[label distance=2mm]0:${XV_{t,n}}$},
+        label={[label distance=2mm]270:${BV_{t,n}}$}
         ](b-3-2){};
 
       \node[bullet, right=7mm of tree-4-1.west,
         label={[label distance=1mm]90:${S_0}$},
-        label={[label distance=2mm]0:${EV_{0,n}}$},
-        label={[label distance=2mm]270:${BV_{0,n}}$}
+        label={[label distance=2mm]0:${XV_{t,n}}$},
+        label={[label distance=2mm]270:${BV_{t,n}}$}
         ](b-4-1){};
 
       \node[bullet, left=0mm of tree-4-3.west,
-        label={[label distance=1mm]90:${udS}$},
-        label={[label distance=2mm]0:${EV_{2,n}}$},
-        label={[label distance=2mm]270:${BV_{2,n}}$}
+        label={[label distance=1mm]90:${udS_0}$},
+        label={[label distance=2mm]0:${XV_{t,n}}$}
         ](b-4-3){};
 
       \node[bullet, left=0mm of tree-5-2.west,
-        label={[label distance=1mm]90:${dS}$},
-        label={[label distance=2mm]0:${EV_{1,n}}$},
-        label={[label distance=2mm]270:${BV_{1,n}}$}
+        label={[label distance=1mm]90:${dS_0}$},
+        label={[label distance=2mm]0:${XV_{t,n}}$},
+        label={[label distance=2mm]270:${BV_{t,n}}$}
         ](b-5-2){};
 
       \node[bullet, left=0mm of tree-6-3.west,
-        label={[label distance=1mm]90:${u^2S}$},
-        label={[label distance=2mm]0:${EV_{2,n}}$},
-        label={[label distance=2mm]270:${BV_{2,n}}$}
+        label={[label distance=1mm]90:${d^2S_0}$},
+        label={[label distance=2mm]0:${XV_{t,n}}$}
         ](b-6-3){};
 
       \draw[->] (b-4-1) -- (b-3-2) node [midway,above] {$p$};
@@ -217,21 +213,27 @@ The initial step in generating the lattice is to obtain the up(${u}$) and down($
 
 \medskip
 
-The rate of increase in the factors: ${\sigma\sqrt{2/\pi}}$ and ${-\sigma\sqrt{t/n}}$ were \textit{probably} derived from the mean absolute deviation (MAD) formula since both fomulas bear a resemblence to the MAD's formula\cite{madwikipedia}:
+The rate of increase in the movement factors: ${\sigma\sqrt{t/n}}$ and ${-\sigma\sqrt{t/n}}$ were \textit{probably} derived from the mean absolute deviation (MAD) formula since both fomulas bear a resemblence to the MAD's formula\cite{madwikipedia}:
 \begin{equation*}
   MAD = \sigma\sqrt{2/\pi}
 \end{equation*}
 
-\noindent Which seems reasonable to believe in this context as both ${u}$ and ${d}$ are essentially compounding the volatility (standard deviation) over a period of time from the initial price of a stock.
+\noindent Which seems reasonable in this context as both ${u}$ and ${d}$ are essentially compounding the volatility (standard deviation) over a period of time from the initial price of a stock.
 
 \bigskip
 
-One neat thing about these formulas is that the stock price at a certain time period ${n}$ can be calculated with:
-\begin{equation*}
-  {S}_n = {S}_0 \cdot {u}^{N_u-N_d}
-\end{equation*}
+\subsubsection*{Lattice Structure}
 
-Since nodes with paths ${u > d}$:
+One neat thing about these formulas is that the stock price at a certain time period ${n}$ can be calculated with:
+\begin{align*}
+  \centering
+  S_n &= S_0 \cdot u^{N_u-N_d} \\
+  \text{where}~N_{n \in \{u,d\}} &= \text{number of movements (${u}$, ${d}$) taken for a path}
+\end{align*}
+
+\bigskip
+
+Nodes with paths ${u > d}$:
 \begin{equation*}
   \setlength{\jot}{10pt}
   \begin{split}
@@ -240,6 +242,8 @@ Since nodes with paths ${u > d}$:
     & = {S}_0 \cdot {u}^n
   \end{split}
 \end{equation*}
+
+\bigskip
 
 Nodes with paths ${u < d}$:
 \begin{equation*}
@@ -254,7 +258,9 @@ Nodes with paths ${u < d}$:
   \end{split}
 \end{equation*}
 
-And nodes with paths ${u = d}$:
+\bigskip
+
+Nodes with paths ${u = d}$:
 \begin{equation*}
   \setlength{\jot}{10pt}
   \begin{split}
@@ -266,16 +272,22 @@ And nodes with paths ${u = d}$:
   \end{split}
 \end{equation*}
 
-These formulas are derived from the continous compouding formula\cite{continouscompoundingformulawikipedia}\cite{exponentcharacterizationswikipedia}:
-${P(t)} = {P}_{0}e^{rt}$
-because the value at each consecutive node is essentially the initial value of the stock compounded by the value of the stock influenced by the movement factor at a certain period.
+\medskip
+
+\noindent Hence, the lattice structure. These formulas are derived from the continous compouding formula\cite{continouscompoundingformulawikipedia}\cite{exponentcharacterizationswikipedia}:
+\begin{equation*}
+  P(t) = {P_0}e^{rt}
+\end{equation*}
+because the value at each consecutive node is essentially the compounded value of the initial stock price at the rate of the movement factor.
 
 
 \subsubsection*{Risk-free interest rate}
-Risk-free\footnote{Realistically, there's probably nothing that's truly risk-free unless it's arbitrage} interest rate is the value that represents the safest interest yield one would earn if they were to put the money in that asset.
-The most common risk-free interest used is the U.S Treasury bond yields as the bonds are considered the safest\footnote{The risk is so low that its negligible} assets to obtain interest.
+Risk-free\footnote{Realistically, truly risk-free is rare or else it's technically arbitrage} interest rate is the value that represents the safest interest yield one would earn if they were to put the money in that asset.
+The most common risk-free interests used are the U.S Treasury bond yields as the bonds are considered the safest\footnote{The risk is so low that its negligible} assets to obtain interest.
 
-For simplicity, this paper will use 0.09\%\footnote{This was the yield listed on November 25, 2020} from the current 6-month\footnote{6-months because we have our expiration at 1 year and only 2 time periods i.e 2 6-month periods} U.S Treasury bill as the risk-free interest rate for calculations.
+\medskip
+
+For simplicity, this paper will use 0.09\%\footnote{This was the yield listed on November 25, 2020} from the current 6-month\footnote{6-months because in our example, we have our expiration at 1 year and only 2 time periods i.e two 6-month periods} U.S Treasury bill as the risk-free interest rate for calculations.
 
 \pagebreak
 \subsubsection*{Generated Tree}
@@ -305,38 +317,35 @@ Given the variables for this example, the tree with stock price estimates is gen
 
       \node[bullet, left=0mm of tree-2-3.west,
         label={[label distance=1mm]90:${\$156.25}$},
-        label={[label distance=2mm]0:${EV_{2,n}}$},
-        label={[label distance=2mm]270:${BV_{2,n}}$}
+        label={[label distance=2mm]0:${XV_{t,n}}$}
         ](b-2-3){};
 
       \node[bullet, left=0mm of tree-3-2.west,
         label={[label distance=1mm]90:${\$125}$},
-        label={[label distance=2mm]0:${EV_{1,n}}$},
-        label={[label distance=2mm]270:${BV_{1,n}}$}
+        label={[label distance=2mm]0:${XV_{t,n}}$},
+        label={[label distance=2mm]270:${BV_{t,n}}$}
         ](b-3-2){};
 
       \node[bullet, right=7mm of tree-4-1.west,
         label={[label distance=1mm]90:${\$100}$},
-        label={[label distance=2mm]0:${EV_{0,n}}$},
-        label={[label distance=2mm]270:${BV_{0,n}}$}
+        label={[label distance=2mm]0:${XV_{t,n}}$},
+        label={[label distance=2mm]270:${BV_{t,n}}$}
         ](b-4-1){};
 
       \node[bullet, left=0mm of tree-4-3.west,
         label={[label distance=1mm]90:${\$100}$},
-        label={[label distance=2mm]0:${EV_{2,n}}$},
-        label={[label distance=2mm]270:${BV_{2,n}}$}
+        label={[label distance=2mm]0:${XV_{t,n}}$}
         ](b-4-3){};
 
       \node[bullet, left=0mm of tree-5-2.west,
         label={[label distance=1mm]90:${\$80}$},
-        label={[label distance=2mm]0:${EV_{1,n}}$},
-        label={[label distance=2mm]270:${BV_{1,n}}$}
+        label={[label distance=2mm]0:${XV_{t,n}}$},
+        label={[label distance=2mm]270:${BV_{t,n}}$}
         ](b-5-2){};
 
       \node[bullet, left=0mm of tree-6-3.west,
         label={[label distance=1mm]90:${\$64}$},
-        label={[label distance=2mm]0:${EV_{2,n}}$},
-        label={[label distance=2mm]270:${BV_{2,n}}$}
+        label={[label distance=2mm]0:${XV_{t,n}}$}
         ](b-6-3){};
 
       \draw[->] (b-4-1) -- (b-3-2) node [midway,above] {$p$};
@@ -349,29 +358,28 @@ Given the variables for this example, the tree with stock price estimates is gen
       \draw[->] (b-5-2) -- (b-6-3) node [midway,below] {$(1-p)$};
   \end{tikzpicture}
   \caption{The generated binomial tree with stock prices for 2 periods}
+  \label{fig:lattice_with_stock_prices}
 \end{figure}
 
 
+\pagebreak
 \subsection*{2. Option Exercise Values}
-With the price tree generated in Figure 2, the option's exercise\footnote{This is also referred to as the intrinsic (face-value) value} value for each node needs to be found because American-style call options can be exercised at any time before expiration.
+With the price tree generated in Figure~\ref{fig:lattice_with_stock_prices}, the option's exercise\footnote{This is also referred to as the intrinsic (face) value} value for each node needs to be found because American-style call options can be exercised at any time before expiration.
 For a European-style call option, only the final nodes of the lattice will have the option value because European-style options can only be exercised at expiration. 
 The exercise value is calculated \cite{bopmwikipedia} by:
-\begin{eqnarray*}
-  \text{\textit{Call Option (${EV_t,n}$)}} = Max({S_n - X}, 0) \\
-  \text{\textit{Put Option (${EV_t,n}$)}} = Max(0, {X - S_n}) 
-\end{eqnarray*}
-
-For a call option, if the difference between the stock price and the strike price (${S_n - X}$) is less than (or equal to) 0, then the option is essentially worthless i.e \$0 because the strike price is the price in which the owner of the call option can purchase the underlying stocks at.
-Since the price of the stock on the market is lower than the strike price, it makes no sense for the owner of the call option to exercise the option and buy at the strike price when he or she purchase the shares at a lower price straight from the market.
-
-\medskip
-
-The same is applied for the put option, except put options gives the user the right to sell the underlying stock at the certain strike price, thus the setup for the difference is reversed.
-If the difference between the strike price and the stock price (${X - S_n}$) is positive, then it makes sense for the owner to exercise the put option and sell the stocks at the strike price rather than the lower market price.
+\begin{align*}
+  \text{\textit{Call Option (${XV_{t,n}}$)}} &= Max({(S_n - X)}, 0) \\
+  \text{\textit{Put Option (${XV_{t,n}}$)}} &= Max(0, {(X - S_n)}) 
+\end{align*}
 
 \bigskip
 
-Our updated tree with the option values are listed below:
+For a call option, if the difference between the stock price and the strike price ${(S_n - X)}$ is negative, then the option is worthless\footnote{\$0} because it is cheaper for the option owner to purchase the shares at market price rather than the strike price.
+The same is applied for the put option, except put options gives the user the right to sell the underlying stock at the certain strike price, therefore the setup for the difference is reversed ${(X - S_n)}$.
+If the difference is negative, then option is also worthless because it is more profitable to sell the underlying stocks at market price rather than the strike price.
+
+\pagebreak
+Our updated tree with the exercise value of the options:
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}[>=stealth, sloped, baseline]
@@ -398,37 +406,37 @@ Our updated tree with the option values are listed below:
       \node[bullet, left=0mm of tree-2-3.west,
         label={[label distance=1mm]90:${\$156.25}$},
         label={[label distance=2mm]0:${\$36.25}$},
-        label={[label distance=2mm]270:${BV_{2,n}}$}
+        label={[label distance=2mm]270:${BV_{t,n}}$}
         ](b-2-3){};
 
       \node[bullet, left=0mm of tree-3-2.west,
         label={[label distance=1mm]90:${\$125}$},
         label={[label distance=2mm]0:${\$5}$},
-        label={[label distance=2mm]270:${BV_{1,n}}$}
+        label={[label distance=2mm]270:${BV_{t,n}}$}
         ](b-3-2){};
 
       \node[bullet, right=7mm of tree-4-1.west,
         label={[label distance=1mm]90:${\$100}$},
         label={[label distance=2mm]0:${\$0}$},
-        label={[label distance=2mm]270:${BV_{0,n}}$}
+        label={[label distance=2mm]270:${BV_{t,n}}$}
         ](b-4-1){};
 
       \node[bullet, left=0mm of tree-4-3.west,
         label={[label distance=1mm]90:${\$100}$},
         label={[label distance=2mm]0:${\$0}$},
-        label={[label distance=2mm]270:${BV_{2,n}}$}
+        label={[label distance=2mm]270:${BV_{t,n}}$}
         ](b-4-3){};
 
       \node[bullet, left=0mm of tree-5-2.west,
         label={[label distance=1mm]90:${\$80}$},
         label={[label distance=2mm]0:${\$0}$},
-        label={[label distance=2mm]270:${BV_{1,n}}$}
+        label={[label distance=2mm]270:${BV_{t,n}}$}
         ](b-5-2){};
 
       \node[bullet, left=0mm of tree-6-3.west,
         label={[label distance=1mm]90:${\$64}$},
         label={[label distance=2mm]0:${\$0}$},
-        label={[label distance=2mm]270:${BV_{2,n}}$}
+        label={[label distance=2mm]270:${BV_{t,n}}$}
         ](b-6-3){};
 
       \draw[->] (b-4-1) -- (b-3-2) node [midway,above] {$p$};
@@ -445,59 +453,60 @@ Our updated tree with the option values are listed below:
 
 \pagebreak
 \subsection*{3. Backward Induction for Binomial Values}
-With the exercise values calculated in the previous step, backward induction is used to obtain the option values at each node starting from the nodes before expiration/last.
-This value calculated is called the "binomial value" and is calculated from the "risk neutral valuation".
+With the exercise values calculated in the previous step, backward induction is used to obtain the option values at each node starting from the nodes before expiration (${\vert t \vert - 1}$).
+The core concept of this step revolves around the Fundamental Theorem of Asset Pricing which implies that the asset value at time ${t}$ is the discounted value of its future value at expiration\footnote{Basically prices today is cheaper than what it will be at expiration.}\cite{blythevideo}\cite{ftapwikipedia}.
+This discounted value in the context of the binomial options pricing model is called the ``binomial value" and is calculated from the ``risk neutral valuation".
 
-\subsubsection*{Risk neutral valuation}
-%(https://en.wikipedia.org/wiki/Rational_pricing#Risk_neutral_valuation)
-The risk neutral valuation is the valution of an option with risk neutrality assumption.
+\subsubsection*{Risk-neutral Valuation}
+The risk neutral valuation is the valution of an option with risk neutrality assumption\cite{riskneutralvalutionwikipedia} which is based on the risk-neutral measure\footnote{Also known as the ``equivalent martingale measure"}\cite{riskneutralmeasurewikipedia}.
+Jan Stuller and Kevin on: \href{https://quant.stackexchange.com/questions/55239/what-is-the-risk-neutral-measure}{\color{blue}{quant.stackexchange}} can explain these terms much better than I can.
 
-Risk neutrality assumption is based on the risk-neutral measure which is in-turn based on the fundamental theorem of asset pricing which implies that today's value is the discounted expected value of a future payoff.
-%(https://youtu.be/eG_aRPy1KVE?t=1353) (https://en.wikipedia.org/wiki/Risk-neutral_measure)
+\medskip
 
-The idea of the risk-neutral measure is that it is a probability measure that takes into consideration all future outcomes including the risks involved under its probability distribtion.
-
-
-\subsubsection*{Arbitrage}
-Arbitrage in the simplest terms is taking profit with no risk (a common form of it is profiting from price difference on different markets).
-For the math behind risk-neutral valuation to work, we must assume that there is no arbitrage.
-
-We need to confirm these statements to be true:
-\begin{align*}
-  & {r > 0} \\
-  & S_d \leq (1+r)S \leq S_u
-\end{align*}
+The most important take away from this, is the arbitrage-free\footnote{There are no arbitrage (ways to make profit with zero risk)} assumption and market completeness\footnote{In a complete market, any reasonable payoff can be replicated\cite{riskneutralmeasurestackexchange}}.
+Both are tied to the existence of martingale\footnote{Future expected values are equal to the present expected value} measures stated by the fundamental theorems of asset pricing\cite{ftapwikipedia}, which implies what was said in the beginning regarding present value discounted from future value.
 
 
 \subsubsection*{Binomial Value}
-The binomial value is calculated by:
+Recall from earlier that the binomial value is essentially the discounted value of the option from its future value.
+This is where the backwards induction comes in, as the value of the options (nodes) at time period ${t}$ are calculated based on the values obtained at time period ${t+1}$.
+
+\bigskip
+
+The binomial value formula\footnote{This was modified from Wikipedia for easier reading(\textit{debatable})} is:
 \begin{align*}
-  & V_{t-\Delta t, n} = \frac{[(p)V_{t,n} + (1-p)V_{t,n+1}]}{e^{r\Delta t}}
+  BV_{\vert t \vert - t, n} &= \frac{[(p)V_{t+1,n_u} + (1-p)V_{t+1,n_d}]}{e^{rt}} \\
   \\
-  & \textrm{where "n" is the nodes of a generation (NOT the generation itself!)}
+  \text{where}~V_{t,n} &= \text{The valuation of the node ${n}$} \\
+  p &= \text{The probability of a up movement} \\
+  t &= \text{The time period} \\
+  e^{rt} &= \text{The compounded interest rate: } (1 + r)^t
 \end{align*}
 
+\pagebreak
 
 Which in plain english is:
 \begin{equation*}
-  \textrm{\textit{Present Option Value (PV)}} = \frac{\textrm{[${p}$ ${\cdot}$ \textit{Option Up} + (1 - ${p}$) \textit{Option Down}]}}{\textrm{\textit{Compounded risk free interest rate}}}
+  \text{\textit{Present Option Value (PV)}} = \frac{\text{[${p}$ ${\cdot}$ \textit{Up Value} + (1 - ${p}$) \textit{Down Value}]}}{\textrm{\textit{Present compounded risk-free interest}}}
 \end{equation*}
 
-The origin of this formula came from the formula for present value: %[This took me a long time to break down and find out]
+\bigskip
+
+And this originated from the formula\footnote{This took me a long long time to break down and find out}\footnote{This also actually originated from Euler's Equation of Consumption: } for present value \cite{presentvaluewikipedia}:
 \begin{equation*}
   P = \frac{F}{(1+r)^t}
 \end{equation*}
 
-Where F represents the future value and in this context will be the expected value of returns from our options at period n:
+\noindent Where ${F}$ represents the future value and in this context will be the expected value of returns from our options at period ${n}$:
 \begin{equation*}
-  F = (p)V_{t,n} + (1-p)V_{t,n+1}
+  F = (p)V_{t+1,u} + (1-p)V_{t+1,d}
 \end{equation*}
 and since we know that expected value is countable/discrete because we are calculating based on countable and finite periods, our formula is:
 \begin{equation*}
   \setlength{\jot}{10pt}
   \begin{split}
     E[V] 
-    & = \sum\limits_{n \in \{u,d\}} p_n V_{t,n} \\
+    & = \sum\limits_{m \in \{u,d\}} p_n V_{t,n} \\
     & = p_1 V_{t,u} + p_2 V_{t,d} \\
     & = (p) V_{t,u} + (1-p) V_{t,d} \\
   \end{split}
@@ -759,6 +768,7 @@ The source code for this application can be found in the same repository that ho
 
 \href{https://github.com/cliuj/binomial-options-pricing-model}{\color{blue}{https://github.com/cliuj/binomial-options-pricing-model}}
 
+\pagebreak
 % It's too much of a pain to learn about BibTex, so I'm writing the old-fashion way
 \begin{thebibliography}{9}
   \bibitem{derivativefinancewikipedia}
@@ -793,6 +803,29 @@ The source code for this application can be found in the same repository that ho
   \bibitem{exponentcharacterizationswikipedia}
     "Characterizations of the exponential function". \\
     \href{https://en.wikipedia.org/wiki/Characterizations\_of\_the\_exponential\_function}{https://en.wikipedia.org/wiki/Characterizations\_of\_the\_exponential\_function}
+
+  \bibitem{riskneutralmeasurewikipedia}
+    "Risk-neutral measure" \\
+    \href{https://en.wikipedia.org/wiki/Risk-neutral\_measure}{https://en.wikipedia.org/wiki/Risk-neutral\_measure}
+
+  \bibitem{riskneutralvalutionwikipedia}
+    "Rational pricing". \\
+    \textit{Risk neutral valuation}. \\
+    \href{https://en.wikipedia.org/wiki/Rational\_pricing\#Risk\_neutral\_valuation}{https://en.wikipedia.org/wiki/Rational\_pricing\#Risk\_neutral\_valuation}
+
+  \bibitem{ftapwikipedia}
+    "Fundamental theorem of asset pricing". \\
+    \href{https://en.wikipedia.org/wiki/Fundamental\_theorem\_of\_asset\_pricing}{https://en.wikipedia.org/wiki/Fundamental\_theorem\_of\_asset\_pricing}
+
+  \bibitem{presentvaluewikipedia}
+    "Present value"
+    \href{https://en.wikipedia.org/wiki/Present\_value}{https://en.wikipedia.org/wiki/Present\_value}
+
+  \bibitem{blythevideo}
+    Stephen Blythe. \\
+    "20. Option Price and Probability Duality". \\
+    \href{https://www.youtube.com/watch?v=eG\_aRPy1KVE}{https://www.youtube.com/watch?v=eG\_aRPy1KVE}, \\
+    22:16-26:00
   
   \bibitem{damodaran}
     Aswath Damodaran.
@@ -826,6 +859,10 @@ The source code for this application can be found in the same repository that ho
   \bibitem{tbondyield}
     "Daily Treasury Yield Curve Rates".
     \href{https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yield}{https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yield}
+
+  \bibitem{riskneutralmeasurestackexchange}
+    "Jan Stuller and Kevin". \\
+    \href{https://quant.stackexchange.com/questions/55239/what-is-the-risk-neutral-measure}{https://quant.stackexchange.com/questions/55239/what-is-the-risk-neutral-measure}
 
 
 \end{thebibliography}
