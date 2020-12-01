@@ -3,6 +3,11 @@
 \usepackage{hyperref}
 \usepackage{indentfirst}
 
+\usepackage[superscript, nospace, nobreak, sort]{cite}
+\renewcommand\citeform[1]{[#1]}
+\renewcommand\citepunct{}
+
+
 \usepackage{enumitem}[labelindent=5cm]
 
 \usepackage[bottom]{footmisc}
@@ -202,12 +207,12 @@ Explaination for the newly introduced variables:
 \pagebreak
 \subsection*{1. Price Tree Generation}
 \subsubsection*{Establishing Movement Factors}
-The initial step in generating the lattice is to obtain the up(${u}$) and down(${d}$) factors. From the original 1979 CRR paper, the up and down factors are calculated using\cite{bopmwikipedia}\cite{crrpaper}:
+The initial step in generating the lattice is to obtain the up(${u}$) and down(${d}$) factors. From the original 1979 CRR paper, the up and down factors are calculated using\cite{bopmwikipedia, crrpaper}:
 \begin{align*}
     u &= e^{\sigma\sqrt{t/n}} \\
     d &= e^{-\sigma\sqrt{t/n}} = \frac{1}{u} \\
-    \text{where}~\sigma &= \text{the volatility (standard deviation) of the stock price} \\
-    t &= \text{the duration\footnote{This is essentially the value of $\frac{T}/{t}$ where ${t}$ in this case is the number of periods in the model}of time period} \\
+    \text{where}~\sigma &= \text{the volatility (standard deviation) of the stock price}, \\
+    t &= \text{the duration\footnote{This is essentially the value of $\frac{T}/{t}$ where ${t}$ in this case is the number of periods in the model}of time period}, \\
     n &= \text{the duration\footnote{The both durations must have the same unit of time} until expiration}
 \end{align*}
 
@@ -274,7 +279,7 @@ Nodes with paths ${u = d}$:
 
 \medskip
 
-\noindent Hence, the lattice structure. These formulas are derived from the continous compouding formula\cite{continouscompoundingformulawikipedia}\cite{exponentcharacterizationswikipedia}:
+\noindent Hence, the lattice structure. These formulas are derived from the continous compouding formula\cite{continouscompoundingformulawikipedia, exponentcharacterizationswikipedia}:
 \begin{equation*}
   P(t) = {P_0}e^{rt}
 \end{equation*}
@@ -473,79 +478,74 @@ This is where the backwards induction comes in, as the value of the options (nod
 
 \bigskip
 
-The binomial value formula\footnote{This was modified from Wikipedia for easier reading(\textit{debatable})} is:
+The binomial value formula\footnote{This was modified from Wikipedia to match this paper's variable usage} is:
 \begin{align*}
   BV_{\vert t \vert - t, n} &= \frac{[(p)V_{t+1,n_u} + (1-p)V_{t+1,n_d}]}{e^{rt}} \\
   \\
-  \text{where}~V_{t,n} &= \text{The valuation of the node ${n}$} \\
-  p &= \text{The probability of a up movement} \\
-  t &= \text{The time period} \\
+  \text{where}~V_{t,n} &= \text{The valuation of the node ${n}$}, \\
+  p &= \text{The probability of a up movement}, \\
+  t &= \text{The time period}, \\
   e^{rt} &= \text{The compounded interest rate: } (1 + r)^t
 \end{align*}
 
 \pagebreak
 
-Which in plain english is:
+\noindent which in plain english is:
 \begin{equation*}
-  \text{\textit{Present Option Value (PV)}} = \frac{\text{[${p}$ ${\cdot}$ \textit{Up Value} + (1 - ${p}$) \textit{Down Value}]}}{\textrm{\textit{Present compounded risk-free interest}}}
+  \text{\textit{Binomial Value at period ${t}$(BV)}} = \frac{\text{[${p}$ ${\cdot}$ \textit{Up Value} + (1 - ${p}$) \textit{Down Value}]}}{\text{\textit{Compounded risk-free interest at period ${t}$}}}
 \end{equation*}
 
 \bigskip
 
-And this originated from the formula\footnote{This took me a long long time to break down and find out}\footnote{This also actually originated from Euler's Equation of Consumption: } for present value \cite{presentvaluewikipedia}:
+And this originated from the formula\footnote{This took me a long long time to break down and find out}\footnote{This also actually originated from Euler's Equation of Consumption\cite{riskneutralmeasurestackexchange}(I could not find the original formula) } for present value \cite{presentvaluewikipedia}:
 \begin{equation*}
   P = \frac{F}{(1+r)^t}
 \end{equation*}
 
-\noindent Where ${F}$ represents the future value and in this context will be the expected value of returns from our options at period ${n}$:
+\noindent Where ${F}$ represents the future value and in this context will be the expected value of returns from our options at period ${t+1}$:
 \begin{equation*}
   F = (p)V_{t+1,u} + (1-p)V_{t+1,d}
 \end{equation*}
-and since we know that expected value is countable/discrete because we are calculating based on countable and finite periods, our formula is:
+and since we know that expected value is discrete because we are calculating based on countable and finite periods, our formula\cite{hussainteaching} is:
 \begin{equation*}
   \setlength{\jot}{10pt}
   \begin{split}
-    E[V] 
+    F = E[V] 
     & = \sum\limits_{m \in \{u,d\}} p_n V_{t,n} \\
     & = p_1 V_{t,u} + p_2 V_{t,d} \\
     & = (p) V_{t,u} + (1-p) V_{t,d} \\
   \end{split}
 \end{equation*}
-%(https://www.scranton.edu/faculty/hussain/teaching/fin586_/GPT103.pdf)
 
 \subsubsection*{Probability}
-Now that we're given the formula for the binomial value and broken down they reason for the formula, one last unknown to calculate is the probability "p".
-
-This probability is calculated with the formula:
+Now that we're given the formula for the binomial value and broken down they reason for the formula, the last unknown to calculate is the probability ${p}$. This probability is calculated from the formula:
 \begin{equation*}
   p = \frac{e^{rt} - d}{u - d}
 \end{equation*}
 
-Which is essentially the formula for Andrew D. Roy's ratio to measure market price of risk:
-%(https://en.wikipedia.org/wiki/Risk-neutral_measure)
-%(https://en.wikipedia.org/wiki/Sharpe_ratio)
-%(https://en.wikipedia.org/wiki/Roy%27s_safety-first_criterion)
-\begin{equation*}
-  \frac{\mu - m}{\sigma}
-\end{equation*}
+\noindent which is essentially the formula for Andrew D. Roy's ratio \cite{riskneutralmeasurewikipedia, sharperatiowikipedia, royssafetyfirstcriterionwikipedia} to measure market price of risk:
+\begin{gather}
+  \setlength{\jot}{10pt}
+  \frac{\mu - m}{\sigma} \\
+  \\
+  \begin{align*}
+  \text{where}~\mu &= \text{The gross expected return}, \\
+  m &= \text{the minimum acceptable return (risk)}, \\
+  \sigma &= \text{the standard deviation of returns}
+  \end{align*} \\
+\end{gather}
 
-Where $\mu$ is the gross expected return, "m" is the minimum acceptable return (risk), and $\sigma$ is the standard deviation of returns.
-
-By solving for "p" with our given example variables:
+\pagebreak
+By solving for ${p}$ with our given example variables:
 \begin{equation*}
   \setlength{\jot}{10pt}
   \begin{split}
     p
-    & = \frac{e^{rt} - d}{u - d}
-    \\
-    & = \frac{(1+r) - d}{u - d}
-    \\
-    & = \frac{1.0009 - 0.80}{1.25 - 0.80}
-    \\
-    & = \frac{1.0009 - 0.80}{0.45}
-    \\
-    & = \frac{0.2009}{0.45}
-    \\
+    & = \frac{e^{rt} - d}{u - d} \\
+    & = \frac{(1+r) - d}{u - d} \\
+    & = \frac{1.0009 - 0.80}{1.25 - 0.80} \\
+    & = \frac{1.0009 - 0.80}{0.45} \\
+    & = \frac{0.2009}{0.45} \\
     & = 0.6\overline{4}
   \end{split}
 \end{equation*}
@@ -555,67 +555,53 @@ We can see that the final result fits the formula for market price of risk:
   \frac{\mu - m}{\sigma} = \frac{1.0009 - 0.80}{0.45}
 \end{equation*}
 
-Where ${1.0009}$ is the gross minimum expected return from investment based on the risk free interest rate.
-If the expected return was lower than the risk-free interest rate, then it makes no sense to invest in an asset with the expectation that the return will be lower than the safest expected return such as treasury bonds.
+\noindent ${\mu}$ is ${1.0009}$ because the minimum expected return should be at least\footnote{Anything lower does not make sense, since you would take on more risk for a reward lower than the safest asset return.} the amount returned from the safest interest asset i.e treasury bonds. ${m}$ is ${0.80}$ and is based off of the down factor because that is in the worst case, the amount of return\footnote{Returns can be negative.} one would get from the underlying purchase. ${\sigma}$ is ${0.45}$ and that is basically the standard deviation from the stock price at time ${t}$ to the up and down outcomes. Putting these together, the result is something that calculates the probability of getting a minimum acceptable return \cite{sfratioinvestopedia}.
 
-The minimum acceptable return (m) is ${0.80}$ and is based off of the down factor because that is in the worst case, the amount of return one would get from the underlying purchase.
+\medskip
 
-${\sigma}$, the standard deviation, is ${0.45}$ and that is basically the size of the spread between the up and down outcomes.
-
-Putting these together, the result is something that calculates the probability of getting a minimum acceptable return. %(https://www.investopedia.com/terms/r/roys-safety-first-criterion.asp)
-
-This probability effectively becomes the probability of the option moving up and thus conversely by complement ${(1-p)}$ becomes the probability of the option moving down.
-
-With this in mind, the probabilities for our example are:
+This probability effectively becomes the \textit{theoretical} probability of the option moving up and thus conversely by complement ${(1-p)}$ becomes the probability of the option moving down. With this in mind, the probabilities for our example are:
 \begin{align*}
   p
-  & \approx 0.45
-  \\
+  & \approx 0.45 \\
   (1-p)
   & \approx 0.55
 \end{align*}
 
-
+\pagebreak
 \subsubsection*{Putting Everything Together}
-Since we are using an American-style option for this example, we must also take into consideration that we can exercise at any node before expiration.
-This means that we need to find maximum value between the calculated Binomial Value and the Exercise Value denoted:
+With all the variables known, we can calculate the binomial values for all the nodes from ${t=(\vert t \vert - 1) \; \rightarrow \; t=0}$.
+Since we are using an American-style option for this example, we must also take into consideration that we can exercise\footnote{For European-style options, the binomial value is applied to all nodes\cite{bopmwikipedia}} at any node before expiration.
+This means that we need to find maximum value between the calculated Binomial Value and the Exercise Value denoted\cite{bopmwikipedia}:
 \begin{equation*}
   V_{t,n} = Max({BV, EV})
 \end{equation*}
 
-Which in plain English is:
+\noindent which in plain English is:
 \begin{equation*}
   \textrm{\textit{Option Value}} = Max(\textrm{\textit{Binomial Value}}, \textrm{\textit{Exercise Value}})
 \end{equation*}
 
+\bigskip
 
 Now with our variables known and formulas established, we calculate the binomial value for each node (except the final nodes) and find the option's value at each node:
 \begin{equation*}
   \setlength{\jot}{10pt}
   \begin{split}
     BV_{uS}
-    & = Max(\frac{[(0.45)(36.25) + (0.55)(0)]}{1+0.0009}, 5)
-    \\
-    & \implies \$16.30
-    \\
+    & = Max(\frac{[(0.45)(36.25) + (0.55)(0)]}{1+0.0009}, 5) \\
+    & \implies \$16.30 \\
     \\
     BV_{dS}
-    & = Max(\frac{[(0.45)(0) + (0.55)(0)]}{1+0.0009}, 0)
-    \\
-    & \implies \$0
-    \\
+    & = Max(\frac{[(0.45)(0) + (0.55)(0)]}{1+0.0009}, 0) \\
+    & \implies \$0 \\
     \\
     BV_{S_0}
-    & = Max(\frac{[(0.45)(16.30) + (0.55)(0)]}{1+0.0009}, 0)
-    \\
+    & = Max(\frac{[(0.45)(16.30) + (0.55)(0)]}{1+0.0009}, 0) \\
     & \implies \$7.33
   \end{split}
 \end{equation*}
 
-Afterwards, we end up with the present day value of the option (${S_0}$): ${\$7.33}$.
-
 \pagebreak
-
 Our final updated tree:
 \begin{figure}[H]
   \centering
@@ -685,6 +671,9 @@ Our final updated tree:
   \caption{Updated tree with option value at the end of the 2 periods}
 \end{figure}
 
+\noindent We end up with the present day value of the option: ${\$7.33}$.
+
+\pagebreak
 \subsection*{Checking and Verifying the Work}
 To verify that the example process and results are indeed correct, we will plug in the same information into Jan Roman's Binomial calculator using the CRR model: %http://janroman.dhis.org/calc/Binomial2.php
 
@@ -821,6 +810,14 @@ The source code for this application can be found in the same repository that ho
     "Present value"
     \href{https://en.wikipedia.org/wiki/Present\_value}{https://en.wikipedia.org/wiki/Present\_value}
 
+  \bibitem{sharperatiowikipedia}
+    "Sharpe Ratio". \\
+    \href{https://en.wikipedia.org/wiki/Sharpe\_ratio}{https://en.wikipedia.org/wiki/Sharpe\_ratio}
+
+  \bibitem{royssafetyfirstcriterionwikipedia}
+    "Roy's safety-first criterion"
+    \href{https://en.wikipedia.org/wiki/Roy\%27s\_safety-first\_criterion}{https://en.wikipedia.org/wiki/Roy\%27s\_safety-first\_criterion}
+
   \bibitem{blythevideo}
     Stephen Blythe. \\
     "20. Option Price and Probability Duality". \\
@@ -840,15 +837,13 @@ The source code for this application can be found in the same repository that ho
 
   \bibitem{obaidullahxplaind}
     Obaidullah Jan.
-    "Stock Valuation".
-    \\
+    "Stock Valuation". \\
     \href{https://xplaind.com/746919/stock-valuation}{https://xplaind.com/746919/stock-valuation}
 
   \bibitem{brigidavideo}
     Matt Brigida.
     "FIN 376: Binomial Option Pricing and Delta Hedging".
-    3:40-4:25.
-    \\
+    3:40-4:25. \\
     \href{https://www.youtube.com/watch?v=PZrmOh2nZus}{https://www.youtube.com/watch?v=PZrmOh2nZus}
 
   \bibitem{crrpaper}
@@ -863,6 +858,23 @@ The source code for this application can be found in the same repository that ho
   \bibitem{riskneutralmeasurestackexchange}
     "Jan Stuller and Kevin". \\
     \href{https://quant.stackexchange.com/questions/55239/what-is-the-risk-neutral-measure}{https://quant.stackexchange.com/questions/55239/what-is-the-risk-neutral-measure}
+
+  \bibitem{hussainteaching}
+    Riaz Hussain. \\
+    "3. BASICS OF PORTFOLIO THEORY". \\
+    \href{https://www.scranton.edu/faculty/hussain/teaching/fin586\_/GPT103.pdf}{https://www.scranton.edu/faculty/hussain/teaching/fin586\_/GPT103.pdf},
+    17-19
+
+  \bibitem{sfratioinvestopedia}
+    Will Kenton. \\
+    "Roy's Safety-First Criterion (SFRatio) Definition". \\
+    \href{https://www.investopedia.com/terms/r/roys-safety-first-criterion.asp}{https://www.investopedia.com/terms/r/roys-safety-first-criterion.asp}
+
+  \bibitem{romancalc}
+    Jan R\"{o}man.
+    "Binomial-tree Option Calculator" \\
+    \href{http://janroman.dhis.org/calc/Binomial2.php}{http://janroman.dhis.org/calc/Binomial2.php
+}
 
 
 \end{thebibliography}
