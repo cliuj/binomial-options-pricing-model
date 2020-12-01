@@ -26,8 +26,8 @@
 \begin{document}
 \setlength\parindent{1cm}
 
-\title{Binomial Options Pricing Model (CRR Version)\\
-\large MATH 3332 - Probability and Inference}
+\title{Binomial Options Pricing Model (CRR Model)\\
+\large MATH 3332 - \textit{Probability and Inference}}
 \author{Charlie Liu}
 \date{\today}
 \maketitle
@@ -35,40 +35,43 @@
 \section*{Introduction}
 
 In finance and economics, the asset market is a blanket term that covers all the various underlying markets that involve the exchange of financial assets.
-The stock market is one popular example of an underlying market where buyers and sellers can exchange assets in the form of stocks/shares (ownership) of a company.
+The stock market is one famous example of an underlying market where buyers and sellers can exchange assets in the form of stocks (or shares) of various companies.
 Other notable markets include the bond market where fixed-income assets like corporate bonds are exchanged, and the derivatives market where contracts between two consenting parties are exchanged.
 The different types of markets can be accessed depends on the features provided by the service or brokerage used.
 
 \medskip
 
 Since assets exchanged on the market are based on a seller's chosen price, one must account for the valuation of the asset to avoid over paying.
-The valuation of an asset is based on the future expected cash flow\cite{damodaran} and is especially important when exchanging assets because pricing is typically determined by the seller and influenced by the buyers.
-It is important to note here that because asset valuation is based on future expected cash flow, any calculated valuation such as intrinsic/justified valuation is considered theoretical.
-This is why quantitative analysis is heavily used in asset valuation as the various mathematical models and technicals/fundamentals are used to estimate the valution of an asset.
-For stocks and bonds, there are various ways to obtain the intrinsic value through different mathematical models.
-These will not be covered in this paper, but some of them can be viewed on Obaidullah's stock valuations article\cite{obaidullahxplaind}.
+The valuation of an asset is based on the future expected cash flow\cite{damodaran} and is especially important when exchanging assets because pricing is typically determined by sellers and influenced by buyers.
+It is important to note here that because asset valuation is based on future expected cash flow, any calculated valuation such as intrinsic\footnote{True value based on quantitative analysis} valuation is considered theoretical.
+This is why quantitative analysis is heavily used in asset valuation as the various mathematical models are used to estimate the valution of an asset.
 
 \medskip
 
-For financial derivatives, valuation is a lot harder to calculate because they are essentially contracts that \textit{derive} their value from the performance of the underlying entity\cite{derivativefinancewikipedia}, thus various factors in addition to the factors affecting the underlying stock value can alter the valuation of the option contract. 
+For financial derivatives, valuation is difficult to calculate because they are essentially contracts that \textit{derive} their value from the performance of the underlying entity\cite{derivativefinancewikipedia}, thus various factors in addition to the factors affecting the underlying stock value can alter the valuation of the option contract. 
 
 \medskip
 
 In this paper, we will focus on a specific financial derivative called the options contract with stocks as its derivation.
-An options contract gives the buyer the right to ``exercise" the contract which means the contract holder can either buy or sell the ${x}$ number\footnote{The number of underlying stock in a single option is usually 100 stocks.} of underlying stock at a fixed price called the stike price once the underlying stock's price passes the strike price\footnote{In the case of "puts" (right to sell), the stock's price must be lower than the strike price. In the case of "calls" (right to buy), the stock's price must be higher than the strike price. }.
-They are essentially reservations to buy or sell ${x}$ number of stock.
-In order to profit from exercising the option, the amount generated from buying or selling at the strike price must cover the cost of the option.
+An options contract gives the owner the right to ``exercise" the contract which means the owner can either buy or sell the ${x}$ number\footnote{The number of underlying stock in a single option is usually 100 stocks.} of underlying stock at a fixed price called the stike price once the underlying stock's price passes the strike price\footnote{In the case of "puts" (right to sell), the stock's price must be lower than the strike price. In the case of "calls" (right to buy), the stock's price must be higher than the strike price.\label{option rules}}.
+They can be viewed as reservations to buy or sell ${x}$ number of stock.
+
+\medskip
+
+Once the strike price is reached or passed, the options contract is considered ``in-the-money"\footnote{In-the-money depends on the type of the option\footref{option rules}.} and can be reasonably exercised for profit.
+Anything else is considered ``out-of-the-money".
+In order to profit from exercising the option, the amount generated from exercising at the strike price must cover the cost\footnote{The options contract's premium.} of the option.
 All option contracts come with an expiration time\footnote{Also known as ``maturity"}.
-If the strike price condition is not met for the option contract, then the contract will ``expire" and is considered worthless because the owner of the option can get a better deal at market price instead of the option's strike price.
+If the option expires out-of-the-money, it is considered worthless\footnote{\$0} because the owner of the option can get a better deal at market price instead of the option's strike price.
 An option contract to buy the underlying entity is called a call and an option contract to sell the underlying entity is called a put.
-One may buy a call or put option on the market and then sell that same option contract on the market.
+One may buy a call or put option on the market and then sell that same option on the market.
 
 \medskip
 
 The famous mathematical model called the Black-Scholes Model developed by Fischer Black, Myron Scholes, and Robert C. Merton was able to give a theoretical valuation of European-style options \cite{blackscholesmodelwikipedia}.
 There is emphasis on ``European-style" options in this case because the Black-Scholes model (by itself) is only accurate on the European-style options.
 European-style options only allow exercise on expiration, while American-style options allow the holder to exercise before expiration.
-This early exercise of the American-style options makes it difficult to find the optimal time to exercise the option for maximum gains \cite{blackscholesmodelwikipedia} as the Black-Scholes model cannot account for the various outcomes before expiration. 
+This early exercise of the American-style options makes it difficult to find the optimal time to exercise the option for maximum gains \cite{blackscholesmodelwikipedia} as the Black-Scholes model cannot\footnote{Because it is essentially a black-box.} account for the various outcomes before expiration. 
 
 \medskip
 
@@ -78,7 +81,7 @@ It was originally proposed by William Sharpe in 1978, but was formalized in 1979
 
 \medskip
 
-The name ``binomial options pricing model" is a generic name that encompasses all forms\footnote{different versions i.e using different formulas} of different binomial options pricing models.
+The name ``binomial options pricing model" is a generic name that encompasses all forms\footnote{Different versions i.e using different formulas} of the binomial options pricing models.
 Cox, Ross, and Rubenstein's version of the binomial options pricing model became commonly known as the ``CRR model" \cite{thebinomialmodelcornell}.
 
 \medskip
@@ -166,32 +169,32 @@ Figure \ref{fig:genericlattice} gives a generalized 2-period example of a binomi
 There are multiple ways to obtain the valuation of the option using this model.
 The novel feature of this model is that option valuation can be achieved without the need of probabilities.
 This same feature is what made Black-Scholes famous in that the true probabilities and expected returns were uneccessary to obtain the valuation of the given option contract\cite{brigidavideo}.
-Two arbitrage-free pricing methods through ``delta-hedging" and replicating portfolio can achieve the same valuation and both of which do not need the probabilities at each outcome.
-Both of these methods are outside the scope of this paper, and the instead this paper will focus on the probability method used to obtain the value of an option.
+Two arbitrage-free pricing methods through ``delta-hedging" and replicating portfolio can achieve the same valuation and both do not need the probabilities at each outcome.
+Both of these methods are outside the scope of this paper, and instead this paper will focus on the probability method used to obtain the value of an option.
 
 \bigskip
 
 The process to evaluate the given option is described as a three step process\cite{bopmwikipedia}:
 \begin{enumerate}[leftmargin=2\parindent]
-  \item Price tree generation
-  \item Calculation of option value at each final node
-  \item Sequential calculation of the option value at each preceding node
+  \item Price Tree Generation
+  \item Calculation of Exercise Values
+  \item Backward Induction for Binomial Values
 \end{enumerate}
 
 \bigskip
 
 To best describe this method, it's best to have an example.
-Here are some variables that need to be established:
-
-\begin{itemize}[label={}]
-  \item Let \textit{\textbf{Stock Price(S)}} = 100
-  \item Let \textit{\textbf{Strike Price(X)}} = 120
-  \item Let \textit{\textbf{Risk-Free Interest Rate(r)}} = 0.09\%
-  \item Let \textit{\textbf{Up Factor(u)}} = 1.25
-  \item Let \textit{\textbf{Down Factor(d)}} = ${\frac{1}{u} = \frac{1}{1.25} = 0.80}$
-  \item Let \textit{\textbf{Time in Year(s) (T)}}  = 1
-  \item Let \textit{\textbf{Time Periods (t)}}  = 2 
-\end{itemize}
+For this example, we will calculated the valuation of an American-style call option with the following inputs:
+\begin{align*}
+  \setlength{\jot}{20pt}
+  \text{Let } &\text{\textit{(S): Stock Price}} = 100 \\
+  \text{Let } &\text{\textit{(X): Strike Price}} = 120 \\
+  \text{Let } &\text{\textit{(r): Risk-Free Interest Rate}} = 0.09\% \\
+  \text{Let } &\text{\textit{(u): Up Factor}} = 1.25 \\
+  \text{Let } &\text{\textit{(d): Down Factor}} = 1/u = 1/1.25 = 0.80 \\
+  \text{Let } &\text{\textit{(T): Time in Year(s)}}  = 1 \\
+  \text{Let } &\text{\textit{(t): Time Periods}}  = 2 
+\end{align*}
 
 \bigskip
 
@@ -200,13 +203,13 @@ Explaination for the newly introduced variables:
   \item \textbf{Risk-Free Interest Rate} - Will be explained in the upcoming section
   \item \textbf{Up Factor} - The factor that the stock price moves up at for each period (t)
   \item \textbf{Down Factor} - The factor that the stock price moves down at for each period (t)
-  \item \textbf{Time in Years} - The duration of the entire model in years\footnote{So if our duration is 0.5, then our entire model is lasting half a year}.
-  \item \textbf{Time Periods} - The number of time periods (generations) in a generated binomial options pricing model
+  \item \textbf{Time in Years} - The time until expiration in years\footnote{So if our duration is 0.5, then our entire model is lasting half a year}.
+  \item \textbf{Time Periods} - The number of time periods (generations) in the binomial lattice
 \end{itemize}
 
 \pagebreak
 \subsection*{1. Price Tree Generation}
-\subsubsection*{Establishing Movement Factors}
+\subsubsection*{Establishing Movement Factors} \label{establishing movement factors}
 The initial step in generating the lattice is to obtain the up(${u}$) and down(${d}$) factors. From the original 1979 CRR paper, the up and down factors are calculated using\cite{bopmwikipedia, crrpaper}:
 \begin{align*}
     u &= e^{\sigma\sqrt{t/n}} \\
@@ -368,7 +371,7 @@ Given the variables for this example, the tree with stock price estimates is gen
 
 
 \pagebreak
-\subsection*{2. Option Exercise Values}
+\subsection*{2. Calculation of Exercise Values}
 With the price tree generated in Figure~\ref{fig:lattice_with_stock_prices}, the option's exercise\footnote{This is also referred to as the intrinsic (face) value} value for each node needs to be found because American-style call options can be exercised at any time before expiration.
 For a European-style call option, only the final nodes of the lattice will have the option value because European-style options can only be exercised at expiration. 
 The exercise value is calculated \cite{bopmwikipedia} by:
@@ -675,79 +678,70 @@ Our final updated tree:
 
 \pagebreak
 \subsection*{Checking and Verifying the Work}
-To verify that the example process and results are indeed correct, we will plug in the same information into Jan Roman's Binomial calculator using the CRR model: %http://janroman.dhis.org/calc/Binomial2.php
+To verify that the example process and results are indeed correct, we will plug in the same information into Jan R\"{o}man's Binomial calculator using the CRR model\cite{romancalc}.
+While the inputs are similar, R\"{o}man's Binomial calculator does not take the up ${(u)}$ and down ${(d)}$ factor as inputs.
+Instead the up and down are calculated from the inputed time periods\footnote{R\"{o}man's calculator calls it ``steps"} (${t}$) and volatility (${\sigma}$).
+Luckily, we can obtain these values from our given variables using the up ${(u)}$ formula introduced in section \ref{establishing movement factors}{\textbf{Establishing Movement Factors}}:
+\begin{align*}
+  u &= e^{\sigma\sqrt{t/n}} \\
+  \\
+  \text{where}~t &= \text{the \textbf{duration}\footnote{This is \textbf{not} the number of periods established before. We're reusing the variable ${t}$ as duration of a period in this case.} of a single period}, \\
+  n &= \text{the amount of time out of ${T}$\footnote{Time until expiration in year(s).} until expiration}
+\end{align*}
 
-While the imputs are similar, Roman's Binomial calculator does not take up (${u}$) or down (${d}$) factor as inputs.
-Instead the up and down are calculated from the inputed steps/periods (${t}$) and volatility (${\sigma}$).
+\paragraph{Note:} Both ${t}$ and ${n}$ in this case are \textit{reused} variables and are not related to the ${t}$ and ${n}$ established earlier.
+Furthermore, both ${t}$ and ${n}$ in this case must be the same unit of time\footnote{Both need to be the same unit i.e \textit{days}, \textit{minutes}, \textit{years}, etc.}.
 
-Luckily, we can obtain these values from our given variables using the following introduced in the "Establishing Movement Factor" section:
+For our simplicity and readability, we will change the variables above to:
+\begin{align*}
+  t &\rightarrow x \\
+  n &\rightarrow y
+\end{align*}
+
+\medskip
+
+In our example, we are using \textit{days} as our unit of time because ${T=1}$ year and we have time period ${t=2}$, therefore ${y = 365}$ and ${x \approx 182}$. With this information and our up (${u}$) factor is ${1.25}$, we solve for the volatility${(\sigma)}$ of the underlying stock:
 \begin{equation*}
   \setlength{\jot}{10pt}
   \begin{split}
     u
-    & = e^{\sigma\sqrt{t/n}}
-    \\
-    d
-    & = e^{-\sigma\sqrt{t/n}} = \frac{1}{u}
-  \end{split}
-\end{equation*}
-
-Where "t" is the duration of a single step/period (unfortunately we're reusing variables and ${t}$ happens to also be the total number of steps in the tree)
-and "n" is the total days until expiration.
-
-Since we have expiration (${T}$) set to 1 year, then our ${n}$ is 365.
-Our number of steps/periods (${t}$) for this model is 2 and thus each duration of a step is ${\approx 182}$ days and this number will be used as ${t}$ for our ${u}$ equation.
-
-With the above information given and our up factor (${u}$) is ${1.25}$, we solve for the volatility (or standard deviation) of our underlying stock:
-\begin{equation*}
-  \setlength{\jot}{10pt}
-  \begin{split}
-    u
-    & = e^{\sigma\sqrt{t/n}}
-    \\
+    & = e^{\sigma\sqrt{t/n}} \\
     1.25
-    & = e^{\sigma\sqrt{\frac{182}{365}}}
-    \\
-    & \implies \ln{(1.25)} = \sigma\sqrt{\frac{182}{365}}
-    \\
-    & \implies \sigma = \frac{\ln{(1.25)}}{\sqrt{\frac{182}{365}}}
-    \\
+    & = e^{\sigma\sqrt{\frac{182}{365}}} \\
+    \implies \ln{(1.25)} &= \sigma\sqrt{\frac{182}{365}} \\
+    \implies \sigma &= \frac{\ln{(1.25)}}{\sqrt{\frac{182}{365}}} \\
     & \approx 0.316
   \end{split}
 \end{equation*}
 
 Since the calculator requires that we input a percentage, we turn this into value into a percentage:
 \begin{equation*}
-  \setlength{\jot}{10pt}
-  \begin{split}
-    \sigma (\%)
-    & = 0.316 * 100
-    \\
-    & = 31.6
-    \\
-    & \implies 31.6\%
-  \end{split}
+    \sigma (\%) = 0.316 * 100 \implies 31.6\%
 \end{equation*}
 
+\pagebreak
 
-Inputting these into the calculator, we get:
+\noindent Inputting these into the calculator, we get:
 \begin{figure}[H]
   \includegraphics[scale=0.8]{Roman_binomial_calculator_inputs}
-  \caption{Roman's Binomial Options Calculator Inputs}
+  \caption{R\"{o}man's Binomial Options Calculator Inputs}
 \end{figure}
 
 \begin{figure}[H]
   \includegraphics{Roman_binomial_calculator_stock_prices}
-  \caption{Roman's Binomial Options Calculator Stock Prices}
+  \caption{R\"{o}man's Binomial Options Calculator Stock Prices}
 \end{figure}
 
 \begin{figure}[H]
   \includegraphics{Roman_binomial_calculator_option_values}
-  \caption{Roman's Binomial Options Calculator Option Values}
+  \caption{R\"{o}man's Binomial Options Calculator Option Values}
 \end{figure}
 
-When comparing the results of Roman's calculator with the results of our example binomial tree, we can see that both stock and options values generated are very close.
-The small differences of precision could be due to the rounded values, but overall, the results are near identical.
+Comparing the results of Roman's calculator with the results of our example binomial tree, we can see that both stock and options values generated are very close.
+The small differences of precision could be due to the rounded values.
+Overall, the results are near identical and confirms that our calculation and proces was correct.
+
+\pagebreak
 
 \section*{Application}
 A binomial options pricing model program written in Python3 was made as the application for this project.
@@ -834,11 +828,6 @@ The source code for this application can be found in the same repository that ho
   \bibitem{thebinomialmodelcornell}
     "The Binomial Model".
     \href{https://pi.math.cornell.edu/~mec/Summer2008/spulido/Binomial.html}{https://pi.math.cornell.edu/~mec/Summer2008/spulido/Binomial.html}
-
-  \bibitem{obaidullahxplaind}
-    Obaidullah Jan.
-    "Stock Valuation". \\
-    \href{https://xplaind.com/746919/stock-valuation}{https://xplaind.com/746919/stock-valuation}
 
   \bibitem{brigidavideo}
     Matt Brigida.
