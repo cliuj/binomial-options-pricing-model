@@ -37,7 +37,7 @@
 In finance and economics, the asset market is a blanket term that covers all the various underlying markets that involve the exchange of financial assets.
 The stock market is one famous example of an underlying market where buyers and sellers can exchange assets in the form of stocks (or shares) of various companies.
 Other notable markets include the bond market where fixed-income assets like corporate bonds are exchanged, and the derivatives market where contracts between two consenting parties are exchanged.
-The different types of markets can be accessed depends on the features provided by the service or brokerage used.
+The accessibility of these markets depend on the features provided by the service or brokerage used.
 
 \medskip
 
@@ -53,14 +53,14 @@ For financial derivatives, valuation is difficult to calculate because they are 
 \medskip
 
 In this paper, we will focus on a specific financial derivative called the options contract with stocks as its derivation.
-An options contract gives the owner the right to ``exercise" the contract which means the owner can either buy or sell the ${x}$ number\footnote{The number of underlying stock in a single option is usually 100 stocks.} of underlying stock at a fixed price called the stike price once the underlying stock's price passes the strike price\footnote{In the case of "puts" (right to sell), the stock's price must be lower than the strike price. In the case of "calls" (right to buy), the stock's price must be higher than the strike price.\label{option rules}}.
+An options contract gives the owner the right to ``exercise" the contract which means the owner can either buy or sell the ${x}$ number\footnote{The number of underlying stock in a single option is usually 100 stocks.} of underlying stock at a fixed price called the stike price once the underlying stock's price passes the strike price\footnote{In the case of ``puts" (right to sell), the stock's price must be lower than the strike price. In the case of ``calls" (right to buy), the stock's price must be higher than the strike price.\label{option rules}}.
 They can be viewed as reservations to buy or sell ${x}$ number of stock.
 
 \medskip
 
-Once the strike price is reached or passed, the options contract is considered ``in-the-money"\footnote{In-the-money depends on the type of the option\footref{option rules}.} and can be reasonably exercised for profit.
+Once the strike price is reached or passed, the options contract is considered ``in-the-money"\footnote{In-the-money depends on the type of the option\footref{option rules}.} and can be reasonably exercised.
 Anything else is considered ``out-of-the-money".
-In order to profit from exercising the option, the amount generated from exercising at the strike price must cover the cost\footnote{The options contract's premium.} of the option.
+In order to profit from exercising the option, the amount generated from exercising at the strike price must cover the cost\footnote{The options contract's premium.} of the option itself.
 All option contracts come with an expiration time\footnote{Also known as ``maturity"}.
 If the option expires out-of-the-money, it is considered worthless\footnote{\$0} because the owner of the option can get a better deal at market price instead of the option's strike price.
 An option contract to buy the underlying entity is called a call and an option contract to sell the underlying entity is called a put.
@@ -76,7 +76,7 @@ This early exercise of the American-style options makes it difficult to find the
 \medskip
 
 The binomial options pricing model overcame this limitation for the American-style options \cite{bopmwikipedia}.
-Its main feature of generating ``nodes" that represent different possible outcomes over a period of time allows for better insight into the optimal stop.
+Its main feature of generating different outcomes in the form of ``nodes" allows for better insight into the optimal stop.
 It was originally proposed by William Sharpe in 1978, but was formalized in 1979 by John Carrington Cox, Stephen Ross, and Mark Edward Rubenstein \cite{bopmwikipedia}.
 
 \medskip
@@ -93,9 +93,9 @@ In this paper, ``binomial options pricing model" will be synonymous to the CRR m
 \section*{Methods}
 
 The binomial options pricing model aims to find the valuation of the chosen option at discrete times based on various inputs given.
-It achieves this by generating a binomial decision tree\footnote{Technically a lattice.} where each node represents the valuation of the option at a certain point in time.
+It achieves this by generating a binomial decision tree (lattice) where each node represents the valuation of the option at a certain point in time.
 This binomial lattice is composed of Bernoulli processes because at each (non end/start) node there are two directional outcomes of the stock: up or down.
-This also means that the probabilities for up and down movement are ${p}$ and ${1-p}$ respectively where ${0 \leq p \leq 1}$. 
+This means that the probabilities for up and down movement are ${p}$ and ${1-p}$ respectively where ${0 \leq p \leq 1}$. 
 Figure \ref{fig:genericlattice} gives a generalized 2-period example of a binomial options lattice this:
 \begin{figure}[H]
   \centering
@@ -212,16 +212,16 @@ Explaination for the newly introduced variables:
 \subsubsection*{Establishing Movement Factors} \label{establishing movement factors}
 The initial step in generating the lattice is to obtain the up(${u}$) and down(${d}$) factors. From the original 1979 CRR paper, the up and down factors are calculated using\cite{bopmwikipedia, crrpaper}:
 \begin{align*}
-    u &= e^{\sigma\sqrt{t/n}} \\
-    d &= e^{-\sigma\sqrt{t/n}} = \frac{1}{u} \\
+    u &= e^{\sigma\sqrt{x/y}} \\
+    d &= e^{-\sigma\sqrt{x/y}} = \frac{1}{u} \\
     \text{where}~\sigma &= \text{the volatility (standard deviation) of the stock price}, \\
-    t &= \text{the duration\footnote{This is essentially the value of $\frac{T}/{t}$ where ${t}$ in this case is the number of periods in the model}of time period}, \\
-    n &= \text{the duration\footnote{The both durations must have the same unit of time} until expiration}
+    x &= \text{the duration of a time period ${(t)}$ out of ${T}$ years}, \\
+    y &= \text{the duration until expiration ${(T)}$}
 \end{align*}
+\paragraph{Note:} The unit of time for both ${x}$ and ${y}$ must be the same. \\
 
-\medskip
-
-The rate of increase in the movement factors: ${\sigma\sqrt{t/n}}$ and ${-\sigma\sqrt{t/n}}$ were \textit{probably} derived from the mean absolute deviation (MAD) formula since both fomulas bear a resemblence to the MAD's formula\cite{madwikipedia}:
+\bigskip
+The rate of increase in the movement factors: ${\sigma\sqrt{x/y}}$ and ${-\sigma\sqrt{x/y}}$ were \textit{probably} derived from the mean absolute deviation (MAD) formula since both fomulas bear a resemblence to the MAD's formula\cite{madwikipedia}:
 \begin{equation*}
   MAD = \sigma\sqrt{2/\pi}
 \end{equation*}
@@ -251,7 +251,7 @@ Nodes with paths ${u > d}$:
   \end{split}
 \end{equation*}
 
-\bigskip
+\pagebreak
 
 Nodes with paths ${u < d}$:
 \begin{equation*}
@@ -291,6 +291,7 @@ because the value at each consecutive node is essentially the compounded value o
 
 \subsubsection*{Risk-free interest rate}
 Risk-free\footnote{Realistically, truly risk-free is rare or else it's technically arbitrage} interest rate is the value that represents the safest interest yield one would earn if they were to put the money in that asset.
+This is is typically used as the expected minimum return for any asset. 
 The most common risk-free interests used are the U.S Treasury bond yields as the bonds are considered the safest\footnote{The risk is so low that its negligible} assets to obtain interest.
 
 \medskip
@@ -372,7 +373,7 @@ Given the variables for this example, the tree with stock price estimates is gen
 
 \pagebreak
 \subsection*{2. Calculation of Exercise Values}
-With the price tree generated in Figure~\ref{fig:lattice_with_stock_prices}, the option's exercise\footnote{This is also referred to as the intrinsic (face) value} value for each node needs to be found because American-style call options can be exercised at any time before expiration.
+With the price tree generated in Figure~\ref{fig:lattice_with_stock_prices}, the option's exercise\footnote{This is also referred to as the intrinsic (face) value} value needs to be found for each node because American-style call options can be exercised at any time before expiration.
 For a European-style call option, only the final nodes of the lattice will have the option value because European-style options can only be exercised at expiration. 
 The exercise value is calculated \cite{bopmwikipedia} by:
 \begin{align*}
@@ -461,7 +462,7 @@ Our updated tree with the exercise value of the options:
 
 \pagebreak
 \subsection*{3. Backward Induction for Binomial Values}
-With the exercise values calculated in the previous step, backward induction is used to obtain the option values at each node starting from the nodes before expiration (${\vert t \vert - 1}$).
+With the exercise values calculated in the previous step, backward induction is used to obtain the option values at each node starting from the nodes before expiration (${t_T - 1}$).
 The core concept of this step revolves around the Fundamental Theorem of Asset Pricing which implies that the asset value at time ${t}$ is the discounted value of its future value at expiration\footnote{Basically prices today is cheaper than what it will be at expiration.}\cite{blythevideo}\cite{ftapwikipedia}.
 This discounted value in the context of the binomial options pricing model is called the ``binomial value" and is calculated from the ``risk neutral valuation".
 
@@ -472,7 +473,7 @@ Jan Stuller and Kevin on: \href{https://quant.stackexchange.com/questions/55239/
 \medskip
 
 The most important take away from this, is the arbitrage-free\footnote{There are no arbitrage (ways to make profit with zero risk)} assumption and market completeness\footnote{In a complete market, any reasonable payoff can be replicated\cite{riskneutralmeasurestackexchange}}.
-Both are tied to the existence of martingale\footnote{Future expected values are equal to the present expected value} measures stated by the fundamental theorems of asset pricing\cite{ftapwikipedia}, which implies what was said in the beginning regarding present value discounted from future value.
+Both are tied to the existence of martingale\footnote{Future expected values are equal to the present expected value} measures stated by the fundamental theorems of asset pricing\cite{ftapwikipedia}, which implies what was said in the beginning: present value is the discounted future value.
 
 
 \subsubsection*{Binomial Value}
@@ -483,12 +484,12 @@ This is where the backwards induction comes in, as the value of the options (nod
 
 The binomial value formula\footnote{This was modified from Wikipedia to match this paper's variable usage} is:
 \begin{align*}
-  BV_{\vert t \vert - t, n} &= \frac{[(p)V_{t+1,n_u} + (1-p)V_{t+1,n_d}]}{e^{rt}} \\
+  BV_{t, n} &= \frac{(p)V_{t+1,n_u} + (1-p)V_{t+1,n_d}}{e^{rt}} \\
   \\
-  \text{where}~V_{t,n} &= \text{The valuation of the node ${n}$}, \\
-  p &= \text{The probability of a up movement}, \\
-  t &= \text{The time period}, \\
-  e^{rt} &= \text{The compounded interest rate: } (1 + r)^t
+  \text{where}~V_{t,n} &= \text{the valuation of the node ${n}$}, \\
+  p &= \text{the probability of a up movement}, \\
+  t &= \text{the time period}, \\
+  e^{rt} &= \text{the compounded interest rate: } (1 + r)^t
 \end{align*}
 
 \pagebreak
@@ -509,19 +510,19 @@ And this originated from the formula\footnote{This took me a long long time to b
 \begin{equation*}
   F = (p)V_{t+1,u} + (1-p)V_{t+1,d}
 \end{equation*}
-and since we know that expected value is discrete because we are calculating based on countable and finite periods, our formula\cite{hussainteaching} is:
+and since we know that expected value is discrete because we are calculating based on countable and finite periods, we get\cite{hussainteaching}:
 \begin{equation*}
   \setlength{\jot}{10pt}
   \begin{split}
     F = E[V] 
-    & = \sum\limits_{m \in \{u,d\}} p_n V_{t,n} \\
+    & = \sum\limits_{n \in \{u,d\}} p_n V_{t,n} \\
     & = p_1 V_{t,u} + p_2 V_{t,d} \\
     & = (p) V_{t,u} + (1-p) V_{t,d} \\
   \end{split}
 \end{equation*}
 
 \subsubsection*{Probability}
-Now that we're given the formula for the binomial value and broken down they reason for the formula, the last unknown to calculate is the probability ${p}$. This probability is calculated from the formula:
+Now that we're given the formula for the binomial value and broken down the reason for the formula, the last unknown to calculate is the probability ${p}$. This probability is calculated from the formula:
 \begin{equation*}
   p = \frac{e^{rt} - d}{u - d}
 \end{equation*}
@@ -558,7 +559,7 @@ We can see that the final result fits the formula for market price of risk:
   \frac{\mu - m}{\sigma} = \frac{1.0009 - 0.80}{0.45}
 \end{equation*}
 
-\noindent ${\mu}$ is ${1.0009}$ because the minimum expected return should be at least\footnote{Anything lower does not make sense, since you would take on more risk for a reward lower than the safest asset return.} the amount returned from the safest interest asset i.e treasury bonds. ${m}$ is ${0.80}$ and is based off of the down factor because that is in the worst case, the amount of return\footnote{Returns can be negative.} one would get from the underlying purchase. ${\sigma}$ is ${0.45}$ and that is basically the standard deviation from the stock price at time ${t}$ to the up and down outcomes. Putting these together, the result is something that calculates the probability of getting a minimum acceptable return \cite{sfratioinvestopedia}.
+\noindent ${\mu}$ is ${1.0009}$ because the minimum expected return should be at least\footnote{Anything lower does not make sense, since you would take on more risk for a reward lower than the safest asset return.} the amount returned from the safest interest asset i.e treasury bonds. ${m}$ is ${0.80}$ and is based off the down factor because that is in the worst case, the amount of return\footnote{Returns can be negative.} one would get from the underlying purchase. ${\sigma}$ is ${0.45}$ and that is basically the standard deviation from the stock price at time ${t}$ to the up and down outcomes. Putting these together, the result is something that calculates the probability of getting a minimum acceptable return \cite{sfratioinvestopedia}.
 
 \medskip
 
@@ -572,7 +573,7 @@ This probability effectively becomes the \textit{theoretical} probability of the
 
 \pagebreak
 \subsubsection*{Putting Everything Together}
-With all the variables known, we can calculate the binomial values for all the nodes from ${t=(\vert t \vert - 1) \; \rightarrow \; t=0}$.
+With all the variables known, we can calculate the binomial values for all the nodes from ${t \in}$ ${\{(t_T - 1) \; \rightarrow \; 0\}}$\footnote{From second to last period to ${0^{th}}$ period}.
 Since we are using an American-style option for this example, we must also take into consideration that we can exercise\footnote{For European-style options, the binomial value is applied to all nodes\cite{bopmwikipedia}} at any node before expiration.
 This means that we need to find maximum value between the calculated Binomial Value and the Exercise Value denoted\cite{bopmwikipedia}:
 \begin{equation*}
@@ -676,29 +677,21 @@ Our final updated tree:
 
 \noindent We end up with the present day value of the option: ${\$7.33}$.
 
+\subsection*{Summary}
+In general, the binomial option's pricing model is a model in which all future returns are calculated and used to work backwards to obtain the values at each node.
+The fundamental formula that this model relies is the present value formula because the calculation for the binomial value is essentially the calculation for the present value, and thus satisfies the implication from the Fundamental Theorem of Asset Pricing\cite{blythevideo}.
+
 \pagebreak
 \subsection*{Checking and Verifying the Work}
 To verify that the example process and results are indeed correct, we will plug in the same information into Jan R\"{o}man's Binomial calculator using the CRR model\cite{romancalc}.
 While the inputs are similar, R\"{o}man's Binomial calculator does not take the up ${(u)}$ and down ${(d)}$ factor as inputs.
 Instead the up and down are calculated from the inputed time periods\footnote{R\"{o}man's calculator calls it ``steps"} (${t}$) and volatility (${\sigma}$).
-Luckily, we can obtain these values from our given variables using the up ${(u)}$ formula introduced in section \ref{establishing movement factors}{\textbf{Establishing Movement Factors}}:
+Luckily, we can obtain these values from our given variables using the up ${(u)}$ formula introduced earlier in section \ref{establishing movement factors}{\textbf{Establishing Movement Factors}}:
 \begin{align*}
-  u &= e^{\sigma\sqrt{t/n}} \\
-  \\
-  \text{where}~t &= \text{the \textbf{duration}\footnote{This is \textbf{not} the number of periods established before. We're reusing the variable ${t}$ as duration of a period in this case.} of a single period}, \\
-  n &= \text{the amount of time out of ${T}$\footnote{Time until expiration in year(s).} until expiration}
+  u &= e^{\sigma\sqrt{x/y}} \\
+  \text{where}~x &= \text{the duration of a time period ${(t)}$ out of ${T}$ years}, \\
+  y &= \text{the duration until expiration ${(T)}$}
 \end{align*}
-
-\paragraph{Note:} Both ${t}$ and ${n}$ in this case are \textit{reused} variables and are not related to the ${t}$ and ${n}$ established earlier.
-Furthermore, both ${t}$ and ${n}$ in this case must be the same unit of time\footnote{Both need to be the same unit i.e \textit{days}, \textit{minutes}, \textit{years}, etc.}.
-
-For our simplicity and readability, we will change the variables above to:
-\begin{align*}
-  t &\rightarrow x \\
-  n &\rightarrow y
-\end{align*}
-
-\medskip
 
 In our example, we are using \textit{days} as our unit of time because ${T=1}$ year and we have time period ${t=2}$, therefore ${y = 365}$ and ${x \approx 182}$. With this information and our up (${u}$) factor is ${1.25}$, we solve for the volatility${(\sigma)}$ of the underlying stock:
 \begin{equation*}
@@ -729,12 +722,12 @@ Since the calculator requires that we input a percentage, we turn this into valu
 
 \begin{figure}[H]
   \includegraphics{Roman_binomial_calculator_stock_prices}
-  \caption{R\"{o}man's Binomial Options Calculator Stock Prices}
+  \caption{R\"{o}man's Binomial Options Calculator Stock Prices Results}
 \end{figure}
 
 \begin{figure}[H]
   \includegraphics{Roman_binomial_calculator_option_values}
-  \caption{R\"{o}man's Binomial Options Calculator Option Values}
+  \caption{R\"{o}man's Binomial Options Calculator Option Values Results}
 \end{figure}
 
 Comparing the results of Roman's calculator with the results of our example binomial tree, we can see that both stock and options values generated are very close.
@@ -744,39 +737,33 @@ Overall, the results are near identical and confirms that our calculation and pr
 \pagebreak
 
 \section*{Application}
-A binomial options pricing model program written in Python3 was made as the application for this project.
-The program created follows and uses the methods and formulas described in this paper and can do a much larger number of steps.
-
+For the application part of this paper, a binomial options pricing model program written in Python3 was made.
+The program follows and uses the methods and formulas described in this paper and can do a much larger number of steps.
 The source code for this application can be found in the same repository that houses the .tex file of this PDF, accessible here:
-
 \href{https://github.com/cliuj/binomial-options-pricing-model}{\color{blue}{https://github.com/cliuj/binomial-options-pricing-model}}
 
 \pagebreak
-% It's too much of a pain to learn about BibTex, so I'm writing the old-fashion way
+% It's too much of a pain to learn about BibTex, so I'm writing the old-fashion way.
+% It's also too much of a pain to sort these...
 \begin{thebibliography}{9}
   \bibitem{derivativefinancewikipedia}
-    "Derivative (finance)".
-    \\
+    "Derivative (finance)". \\
     \href{https://en.wikipedia.org/wiki/Derivative\_(finance)}{https://en.wikipedia.org/wiki/Derivative\_(finance)}
 
   \bibitem{blackscholesmodelwikipedia}
-    "Black-Scholes Model".
-    \\
+    "Black-Scholes Model". \\
     \href{https://en.wikipedia.org/wiki/Black-Scholes\_model}{https://en.wikipedia.org/wiki/Black-Scholes\_model}
 
   \bibitem{bopmwikipedia}
-    "Binomial options pricing model".
-    \\
+    "Binomial options pricing model". \\
     \href{https://en.wikipedia.org/wiki/Binomial\_options\_pricing\_model}{https://en.wikipedia.org/wiki/Binomial\_options\_pricing\_model}
 
   \bibitem{volatilityfinancewikipedia}
-    "Volatility (finance)".
-    \\
+    "Volatility (finance)". \\
     \href{https://en.wikipedia.org/wiki/Volatility\_(finance)}{https://en.wikipedia.org/wiki/Volatility\_(finance)}
 
   \bibitem{madwikipedia}
-    "Average absolute deviation"
-    \\
+    "Average absolute deviation" \\
     \href{https://en.wikipedia.org/wiki/Average\_absolute\_deviation}{https://en.wikipedia.org/wiki/Average\_absolute\_deviation}
 
   \bibitem{continouscompoundingformulawikipedia}
@@ -813,7 +800,7 @@ The source code for this application can be found in the same repository that ho
     \href{https://en.wikipedia.org/wiki/Roy\%27s\_safety-first\_criterion}{https://en.wikipedia.org/wiki/Roy\%27s\_safety-first\_criterion}
 
   \bibitem{blythevideo}
-    Stephen Blythe. \\
+    Stephen Blythe.
     "20. Option Price and Probability Duality". \\
     \href{https://www.youtube.com/watch?v=eG\_aRPy1KVE}{https://www.youtube.com/watch?v=eG\_aRPy1KVE}, \\
     22:16-26:00
@@ -826,8 +813,8 @@ The source code for this application can be found in the same repository that ho
     (2012)
 
   \bibitem{thebinomialmodelcornell}
-    "The Binomial Model".
-    \href{https://pi.math.cornell.edu/~mec/Summer2008/spulido/Binomial.html}{https://pi.math.cornell.edu/~mec/Summer2008/spulido/Binomial.html}
+    "The Binomial Model". \\
+    \href{https://pi.math.cornell.edu/\~mec/Summer2008/spulido/Binomial.html}{https://pi.math.cornell.edu/\~mec/Summer2008/spulido/Binomial.html}
 
   \bibitem{brigidavideo}
     Matt Brigida.
@@ -836,9 +823,10 @@ The source code for this application can be found in the same repository that ho
     \href{https://www.youtube.com/watch?v=PZrmOh2nZus}{https://www.youtube.com/watch?v=PZrmOh2nZus}
 
   \bibitem{crrpaper}
-    John Carrington Cox, Stephen Ross, and Mark Edward Rubenstein
+    John Carrington Cox, Stephen Ross, and Mark Edward Rubenstein.
     "Option pricing: A simplified approach".
     (1979)
+    \href{http://static.stevereads.com/papers\_to\_read/option\_pricing\_a\_simplified\_approach.pdf}{http://static.stevereads.com/papers\_to\_read/option\_pricing\_a\_simplified\_approach.pdf}\footnote{This is the original paper, but not the official hosting site.}
 
   \bibitem{tbondyield}
     "Daily Treasury Yield Curve Rates".
@@ -849,13 +837,13 @@ The source code for this application can be found in the same repository that ho
     \href{https://quant.stackexchange.com/questions/55239/what-is-the-risk-neutral-measure}{https://quant.stackexchange.com/questions/55239/what-is-the-risk-neutral-measure}
 
   \bibitem{hussainteaching}
-    Riaz Hussain. \\
+    Riaz Hussain.
     "3. BASICS OF PORTFOLIO THEORY". \\
     \href{https://www.scranton.edu/faculty/hussain/teaching/fin586\_/GPT103.pdf}{https://www.scranton.edu/faculty/hussain/teaching/fin586\_/GPT103.pdf},
     17-19
 
   \bibitem{sfratioinvestopedia}
-    Will Kenton. \\
+    Will Kenton.
     "Roy's Safety-First Criterion (SFRatio) Definition". \\
     \href{https://www.investopedia.com/terms/r/roys-safety-first-criterion.asp}{https://www.investopedia.com/terms/r/roys-safety-first-criterion.asp}
 
