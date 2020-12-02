@@ -160,6 +160,11 @@ Figure \ref{fig:genericlattice} gives a generalized 2-period example of a binomi
   
   		\draw[->] (b-5-2) -- (b-4-3) node [midway,above] {$p$};
       \draw[->] (b-5-2) -- (b-6-3) node [midway,below] {$(1-p)$};
+      \matrix [draw,below left] at (current bounding box.south) {
+        \node [label=right:${S_0 =}$ \text{initial stock price}] {}; \\
+        \node [label=right:${XV_{t, n} =}$ \text{exercise value at time period ${t}$}] {}; \\
+        \node [label=right:${BV_{t, n} =}$ \text{binomial value at time period ${t}$}] {}; \\
+      };
   \end{tikzpicture}
   \caption{A generic binomial options pricing lattice with 2 periods}
   \label{fig:genericlattice}
@@ -368,6 +373,10 @@ Given the variables for this example, the tree with stock price estimates is gen
   
   		\draw[->] (b-5-2) -- (b-4-3) node [midway,above] {$p$};
       \draw[->] (b-5-2) -- (b-6-3) node [midway,below] {$(1-p)$};
+      \matrix [draw,below left] at (current bounding box.south) {
+        \node [label=right:${XV_{t, n} =}$ \text{exercise value at time period ${t}$}] {}; \\
+        \node [label=right:${BV_{t, n} =}$ \text{binomial value at time period ${t}$}] {}; \\
+      };
   \end{tikzpicture}
   \caption{The generated binomial tree with stock prices for 2 periods}
   \label{fig:lattice_with_stock_prices}
@@ -459,6 +468,9 @@ Our updated tree with the exercise value of the options:
   
   		\draw[->] (b-5-2) -- (b-4-3) node [midway,above] {$p$};
       \draw[->] (b-5-2) -- (b-6-3) node [midway,below] {$(1-p)$};
+      \matrix [draw,below left] at (current bounding box.south) {
+        \node [label=right:${BV_{t, n} =}$ \text{binomial value at time period ${t}$}] {}; \\
+      };
   \end{tikzpicture}
   \caption{Updated tree with option value at the end of the 2 periods}
 \end{figure}
@@ -539,7 +551,7 @@ Now that we're given the formula for the binomial value and broken down the reas
   \frac{\mu - m}{\sigma} \\
   \\
   \begin{align*}
-  \text{where}~\mu &= \text{The gross expected return}, \\
+  \text{where}~\mu &= \text{the gross expected return}, \\
   m &= \text{the minimum acceptable return (risk)}, \\
   \sigma &= \text{the standard deviation of returns}
   \end{align*} \\
