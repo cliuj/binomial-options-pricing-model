@@ -212,11 +212,13 @@ Explaination for the newly introduced variables:
 \subsubsection*{Establishing Movement Factors} \label{establishing movement factors}
 The initial step in generating the lattice is to obtain the up(${u}$) and down(${d}$) factors. From the original 1979 CRR paper, the up and down factors are calculated using\cite{bopmwikipedia, crrpaper}:
 \begin{align*}
-    u &= e^{\sigma\sqrt{x/y}} \\
-    d &= e^{-\sigma\sqrt{x/y}} = \frac{1}{u} \\
-    \text{where}~\sigma &= \text{the volatility (standard deviation) of the stock price}, \\
-    x &= \text{the duration of a time period ${(t)}$ out of ${T}$ years}, \\
-    y &= \text{the duration until expiration ${(T)}$}
+  u &= e^{\sigma\sqrt{x/y}} \\
+  d &= e^{-\sigma\sqrt{x/y}} = \frac{1}{u}
+\end{align*}
+\begin{align*}
+  \text{where}~\sigma &= \text{the volatility (standard deviation) of the stock price}, \\
+  x &= \text{the duration of a time period ${(t)}$ out of ${T}$ years}, \\
+  y &= \text{the duration until expiration ${(T)}$}
 \end{align*}
 \paragraph{Note:} The unit of time for both ${x}$ and ${y}$ must be the same. \\
 
@@ -233,13 +235,14 @@ The rate of increase in the movement factors: ${\sigma\sqrt{x/y}}$ and ${-\sigma
 \subsubsection*{Lattice Structure}
 
 One neat thing about these formulas is that the stock price at a certain time period ${n}$ can be calculated with:
-\begin{align*}
-  \centering
-  S_n &= S_0 \cdot u^{N_u-N_d} \\
-  \text{where}~N_{n \in \{u,d\}} &= \text{number of movements (${u}$, ${d}$) taken for a path}
-\end{align*}
+\begin{gather*}
+  S_n = S_0 \cdot u^{N_u-N_d} \\
+  \begin{align*}
+    \text{where}~N_{n \in \{u,d\}} &= \text{number of movements (${u}$, ${d}$) taken for a path}
+  \end{align*} \\
+\end{gather*}
 
-\bigskip
+\medskip
 
 Nodes with paths ${u > d}$:
 \begin{equation*}
@@ -462,7 +465,7 @@ Our updated tree with the exercise value of the options:
 
 \pagebreak
 \subsection*{3. Backward Induction for Binomial Values}
-With the exercise values calculated in the previous step, backward induction is used to obtain the option values at each node starting from the nodes before expiration (${t_T - 1}$).
+With the exercise values calculated in the previous step, backward induction is used to obtain the option values at each node excluding the nodes at expiration.
 The core concept of this step revolves around the Fundamental Theorem of Asset Pricing which implies that the asset value at time ${t}$ is the discounted value of its future value at expiration\footnote{Basically prices today is cheaper than what it will be at expiration.}\cite{blythevideo}\cite{ftapwikipedia}.
 This discounted value in the context of the binomial options pricing model is called the ``binomial value" and is calculated from the ``risk neutral valuation".
 
@@ -483,20 +486,23 @@ This is where the backwards induction comes in, as the value of the options (nod
 \bigskip
 
 The binomial value formula\footnote{This was modified from Wikipedia to match this paper's variable usage} is:
-\begin{align*}
-  BV_{t, n} &= \frac{(p)V_{t+1,n_u} + (1-p)V_{t+1,n_d}}{e^{rt}} \\
+
+\begin{gather*}
+  BV_{t, n} = \frac{(p)V_{t+1,u} + (1-p)V_{t+1,d}}{e^{rt}} \\
   \\
-  \text{where}~V_{t,n} &= \text{the valuation of the node ${n}$}, \\
-  p &= \text{the probability of a up movement}, \\
-  t &= \text{the time period}, \\
-  e^{rt} &= \text{the compounded interest rate: } (1 + r)^t
-\end{align*}
+  \begin{align*}
+    \text{where}~V_{t,n} &= \text{the valuation of node ${n}$ where ${n \in \{u, d\}}$}, \\
+    p &= \text{the probability of a up movement}, \\
+    t &= \text{the time period}, \\
+    e^{rt} &= \text{the compounded interest rate: } (1 + r)^t
+  \end{align*} \\
+\end{gather*}
 
 \pagebreak
 
 \noindent which in plain english is:
 \begin{equation*}
-  \text{\textit{Binomial Value at period ${t}$(BV)}} = \frac{\text{[${p}$ ${\cdot}$ \textit{Up Value} + (1 - ${p}$) \textit{Down Value}]}}{\text{\textit{Compounded risk-free interest at period ${t}$}}}
+  \text{\textit{Binomial Value at period ${t}$}} = \frac{\text{[${p}$ ${\cdot}$ \textit{Up Value} + (1 - ${p}$) \textit{Down Value}]}}{\text{\textit{Compounded risk-free interest at period ${t}$}}}
 \end{equation*}
 
 \bigskip
@@ -528,7 +534,7 @@ Now that we're given the formula for the binomial value and broken down the reas
 \end{equation*}
 
 \noindent which is essentially the formula for Andrew D. Roy's ratio \cite{riskneutralmeasurewikipedia, sharperatiowikipedia, royssafetyfirstcriterionwikipedia} to measure market price of risk:
-\begin{gather}
+\begin{gather*}
   \setlength{\jot}{10pt}
   \frac{\mu - m}{\sigma} \\
   \\
@@ -537,7 +543,7 @@ Now that we're given the formula for the binomial value and broken down the reas
   m &= \text{the minimum acceptable return (risk)}, \\
   \sigma &= \text{the standard deviation of returns}
   \end{align*} \\
-\end{gather}
+\end{gather*}
 
 \pagebreak
 By solving for ${p}$ with our given example variables:
@@ -546,7 +552,7 @@ By solving for ${p}$ with our given example variables:
   \begin{split}
     p
     & = \frac{e^{rt} - d}{u - d} \\
-    & = \frac{(1+r) - d}{u - d} \\
+    & = \frac{(1+r)^t - d}{u - d} \\
     & = \frac{1.0009 - 0.80}{1.25 - 0.80} \\
     & = \frac{1.0009 - 0.80}{0.45} \\
     & = \frac{0.2009}{0.45} \\
@@ -573,16 +579,16 @@ This probability effectively becomes the \textit{theoretical} probability of the
 
 \pagebreak
 \subsubsection*{Putting Everything Together}
-With all the variables known, we can calculate the binomial values for all the nodes from ${t \in}$ ${\{(t_T - 1) \; \rightarrow \; 0\}}$\footnote{From second to last period to ${0^{th}}$ period}.
+With all the variables known, we can calculate the binomial values for all the nodes\footnote{From second to last period to ${0^{th}}$ period} except the expiration\footnote{Because the exercise value becomes the max value for the option at expiration.} nodes.
 Since we are using an American-style option for this example, we must also take into consideration that we can exercise\footnote{For European-style options, the binomial value is applied to all nodes\cite{bopmwikipedia}} at any node before expiration.
 This means that we need to find maximum value between the calculated Binomial Value and the Exercise Value denoted\cite{bopmwikipedia}:
 \begin{equation*}
-  V_{t,n} = Max({BV, EV})
+  V_{t,n} = Max({BV, XV})
 \end{equation*}
 
 \noindent which in plain English is:
 \begin{equation*}
-  \textrm{\textit{Option Value}} = Max(\textrm{\textit{Binomial Value}}, \textrm{\textit{Exercise Value}})
+  \textrm{\textit{Option Value}} = Max(\text{\textit{Binomial Value}}, \text{\textit{Exercise Value}})
 \end{equation*}
 
 \bigskip
@@ -591,17 +597,17 @@ Now with our variables known and formulas established, we calculate the binomial
 \begin{equation*}
   \setlength{\jot}{10pt}
   \begin{split}
-    BV_{uS}
-    & = Max(\frac{[(0.45)(36.25) + (0.55)(0)]}{1+0.0009}, 5) \\
-    & \implies \$16.30 \\
+    BV_{1, uS}
+    & = Max(\frac{[(0.45)(36.25) + (0.55)(0)]}{(1+0.0009)^1}, 5) \\
+    & \implies \approx\$16.30 \\
     \\
-    BV_{dS}
-    & = Max(\frac{[(0.45)(0) + (0.55)(0)]}{1+0.0009}, 0) \\
+    BV_{1, dS}
+    & = Max(\frac{[(0.45)(0) + (0.55)(0)]}{(1+0.0009)^1}, 0) \\
     & \implies \$0 \\
     \\
-    BV_{S_0}
-    & = Max(\frac{[(0.45)(16.30) + (0.55)(0)]}{1+0.0009}, 0) \\
-    & \implies \$7.33
+    BV_{0, S_0}
+    & = Max(\frac{[(0.45)(16.30) + (0.55)(0)]}{(1+0.0009)^0}, 0) \\
+    & \implies \approx\$7.33
   \end{split}
 \end{equation*}
 
@@ -687,11 +693,13 @@ To verify that the example process and results are indeed correct, we will plug 
 While the inputs are similar, R\"{o}man's Binomial calculator does not take the up ${(u)}$ and down ${(d)}$ factor as inputs.
 Instead the up and down are calculated from the inputed time periods\footnote{R\"{o}man's calculator calls it ``steps"} (${t}$) and volatility (${\sigma}$).
 Luckily, we can obtain these values from our given variables using the up ${(u)}$ formula introduced earlier in section \ref{establishing movement factors}{\textbf{Establishing Movement Factors}}:
-\begin{align*}
-  u &= e^{\sigma\sqrt{x/y}} \\
-  \text{where}~x &= \text{the duration of a time period ${(t)}$ out of ${T}$ years}, \\
-  y &= \text{the duration until expiration ${(T)}$}
-\end{align*}
+\begin{gather*}
+  u = e^{\sigma\sqrt{x/y}} \\
+  \begin{align*}
+    \text{where}~x &= \text{the duration of a time period ${(t)}$ out of ${T}$ years}, \\
+    y &= \text{the duration until expiration ${(T)}$}
+  \end{align*} \\
+\end{gather*}
 
 In our example, we are using \textit{days} as our unit of time because ${T=1}$ year and we have time period ${t=2}$, therefore ${y = 365}$ and ${x \approx 182}$. With this information and our up (${u}$) factor is ${1.25}$, we solve for the volatility${(\sigma)}$ of the underlying stock:
 \begin{equation*}
@@ -738,9 +746,32 @@ Overall, the results are near identical and confirms that our calculation and pr
 
 \section*{Application}
 For the application part of this paper, a binomial options pricing model program written in Python3 was made.
-The program follows and uses the methods and formulas described in this paper and can do a much larger number of steps.
-The source code for this application can be found in the same repository that houses the .tex file of this PDF, accessible here:
+The program follows and uses the methods and formulas described in this paper and can calculate at a much larger number of steps.
+The source code for this application can be found in the same repository that houses the source .tex file of this PDF, accessible here:
 \href{https://github.com/cliuj/binomial-options-pricing-model}{\color{blue}{https://github.com/cliuj/binomial-options-pricing-model}}
+
+To verify, we check if the output of the program is similar to the output of the earlier example above and R\"{o}man's calculator results:
+
+\begin{figure}[H]
+  \includegraphics[scale=0.66]{bopm_output_screenshot.png}
+  \caption{Results of the Binomial Options Pricing Calculator Application}
+\end{figure}
+
+\pagebreak
+Unfortunately, formatting is off if we use a bigger number of time periods:
+\begin{figure}[H]
+  \includegraphics[scale=0.55]{bopm_output_screenshot_25steps.png}
+  \caption{Results of the Binomial Options Pricing Calculator Application with 25 Periods}
+\end{figure}
+
+\pagebreak
+Luckily, it still outputs the present day value of the option:
+\begin{figure}[H]
+  \includegraphics[scale=0.55]{bopm_output_screenshot_25steps_PV.png}
+  \caption{Results of the Binomial Options Pricing Calculator Application with 25 Periods with Present Value}
+\end{figure}
+
+
 
 \pagebreak
 % It's too much of a pain to learn about BibTex, so I'm writing the old-fashion way.
