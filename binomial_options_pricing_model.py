@@ -138,7 +138,7 @@ if __name__ == "__main__":
         "stock_price": 100,
         "strike_price": 120,
         "volatility": 0.316,
-        "risk_free_interest_rate": 0.09,
+        "risk_free_interest_rate": 0.0009,
         "up_factor": 1.25,
         "down_factor": 0.80,
         "T": 1,
