@@ -127,13 +127,13 @@ Figure \ref{fig:genericlattice} gives a generalized 2-period example of a binomi
       \node[bullet, left=0mm of tree-3-2.west,
         label={[label distance=1mm]90:${uS_0}$},
         label={[label distance=2mm]0:${XV_{t,n}}$},
-        label={[label distance=2mm]270:${BV_{t,n}}$}
+        label={[label distance=2mm]270:${OV_{t,n}}$}
         ](b-3-2){};
 
       \node[bullet, right=7mm of tree-4-1.west,
         label={[label distance=1mm]90:${S_0}$},
         label={[label distance=2mm]0:${XV_{t,n}}$},
-        label={[label distance=2mm]270:${BV_{t,n}}$}
+        label={[label distance=2mm]270:${OV_{t,n}}$}
         ](b-4-1){};
 
       \node[bullet, left=0mm of tree-4-3.west,
@@ -144,7 +144,7 @@ Figure \ref{fig:genericlattice} gives a generalized 2-period example of a binomi
       \node[bullet, left=0mm of tree-5-2.west,
         label={[label distance=1mm]90:${dS_0}$},
         label={[label distance=2mm]0:${XV_{t,n}}$},
-        label={[label distance=2mm]270:${BV_{t,n}}$}
+        label={[label distance=2mm]270:${OV_{t,n}}$}
         ](b-5-2){};
 
       \node[bullet, left=0mm of tree-6-3.west,
@@ -163,7 +163,7 @@ Figure \ref{fig:genericlattice} gives a generalized 2-period example of a binomi
       \matrix [draw,below left] at (current bounding box.south) {
         \node [label=right:${S_0 =}$ \text{initial stock price}] {}; \\
         \node [label=right:${XV_{t, n} =}$ \text{exercise value at time period ${t}$}] {}; \\
-        \node [label=right:${BV_{t, n} =}$ \text{binomial value at time period ${t}$}] {}; \\
+        \node [label=right:${OV_{t, n} =}$ \text{option value at time period ${t}$}] {}; \\
       };
   \end{tikzpicture}
   \caption{A generic binomial options pricing lattice with 2 periods}
@@ -198,7 +198,7 @@ For this example, we will calculated the valuation of an American-style call opt
   \text{Let } &\text{\textit{(u): Up Factor}} = 1.25 \\
   \text{Let } &\text{\textit{(d): Down Factor}} = 1/u = 1/1.25 = 0.80 \\
   \text{Let } &\text{\textit{(T): Time in Year(s)}}  = 1 \\
-  \text{Let } &\text{\textit{(t): Time Periods}}  = 2 
+  \text{Let } &\text{\textit{(tp): Time Periods}}  = 2 
 \end{align*}
 
 \bigskip
@@ -206,8 +206,8 @@ For this example, we will calculated the valuation of an American-style call opt
 Explaination for the newly introduced variables:
 \begin{itemize}[label={}]
   \item \textbf{Risk-Free Interest Rate} - Will be explained in the upcoming section
-  \item \textbf{Up Factor} - The factor that the stock price moves up at for each period (t)
-  \item \textbf{Down Factor} - The factor that the stock price moves down at for each period (t)
+  \item \textbf{Up Factor} - The factor that the stock price moves up at for each time period
+  \item \textbf{Down Factor} - The factor that the stock price moves down at for each time period
   \item \textbf{Time in Years} - The time until expiration in years\footnote{So if our duration is 0.5, then our entire model is lasting half a year}.
   \item \textbf{Time Periods} - The number of time periods (generations) in the binomial lattice
 \end{itemize}
@@ -222,7 +222,7 @@ The initial step in generating the lattice is to obtain the up(${u}$) and down($
 \end{align*}
 \begin{align*}
   \text{where}~\sigma &= \text{the volatility (standard deviation) of the stock price}, \\
-  x &= \text{the duration of a time period ${(t)}$ out of ${T}$ years}, \\
+  x &= \text{the duration of a time period out of ${T}$ years}, \\
   y &= \text{the duration until expiration ${(T)}$}
 \end{align*}
 \paragraph{Note:} The unit of time for both ${x}$ and ${y}$ must be the same. \\
@@ -340,13 +340,13 @@ Given the variables for this example, the tree with stock price estimates is gen
       \node[bullet, left=0mm of tree-3-2.west,
         label={[label distance=1mm]90:${\$125}$},
         label={[label distance=2mm]0:${XV_{t,n}}$},
-        label={[label distance=2mm]270:${BV_{t,n}}$}
+        label={[label distance=2mm]270:${OV_{t,n}}$}
         ](b-3-2){};
 
       \node[bullet, right=7mm of tree-4-1.west,
         label={[label distance=1mm]90:${\$100}$},
         label={[label distance=2mm]0:${XV_{t,n}}$},
-        label={[label distance=2mm]270:${BV_{t,n}}$}
+        label={[label distance=2mm]270:${OV_{t,n}}$}
         ](b-4-1){};
 
       \node[bullet, left=0mm of tree-4-3.west,
@@ -357,7 +357,7 @@ Given the variables for this example, the tree with stock price estimates is gen
       \node[bullet, left=0mm of tree-5-2.west,
         label={[label distance=1mm]90:${\$80}$},
         label={[label distance=2mm]0:${XV_{t,n}}$},
-        label={[label distance=2mm]270:${BV_{t,n}}$}
+        label={[label distance=2mm]270:${OV_{t,n}}$}
         ](b-5-2){};
 
       \node[bullet, left=0mm of tree-6-3.west,
@@ -375,7 +375,7 @@ Given the variables for this example, the tree with stock price estimates is gen
       \draw[->] (b-5-2) -- (b-6-3) node [midway,below] {$(1-p)$};
       \matrix [draw,below left] at (current bounding box.south) {
         \node [label=right:${XV_{t, n} =}$ \text{exercise value at time period ${t}$}] {}; \\
-        \node [label=right:${BV_{t, n} =}$ \text{binomial value at time period ${t}$}] {}; \\
+        \node [label=right:${OV_{t, n} =}$ \text{option value at time period ${t}$}] {}; \\
       };
   \end{tikzpicture}
   \caption{The generated binomial tree with stock prices for 2 periods}
@@ -427,37 +427,37 @@ Our updated tree with the exercise value of the options:
       \node[bullet, left=0mm of tree-2-3.west,
         label={[label distance=1mm]90:${\$156.25}$},
         label={[label distance=2mm]0:${\$36.25}$},
-        label={[label distance=2mm]270:${BV_{t,n}}$}
+        label={[label distance=2mm]270:${OV_{t,n}}$}
         ](b-2-3){};
 
       \node[bullet, left=0mm of tree-3-2.west,
         label={[label distance=1mm]90:${\$125}$},
         label={[label distance=2mm]0:${\$5}$},
-        label={[label distance=2mm]270:${BV_{t,n}}$}
+        label={[label distance=2mm]270:${OV_{t,n}}$}
         ](b-3-2){};
 
       \node[bullet, right=7mm of tree-4-1.west,
         label={[label distance=1mm]90:${\$100}$},
         label={[label distance=2mm]0:${\$0}$},
-        label={[label distance=2mm]270:${BV_{t,n}}$}
+        label={[label distance=2mm]270:${OV_{t,n}}$}
         ](b-4-1){};
 
       \node[bullet, left=0mm of tree-4-3.west,
         label={[label distance=1mm]90:${\$100}$},
         label={[label distance=2mm]0:${\$0}$},
-        label={[label distance=2mm]270:${BV_{t,n}}$}
+        label={[label distance=2mm]270:${OV_{t,n}}$}
         ](b-4-3){};
 
       \node[bullet, left=0mm of tree-5-2.west,
         label={[label distance=1mm]90:${\$80}$},
         label={[label distance=2mm]0:${\$0}$},
-        label={[label distance=2mm]270:${BV_{t,n}}$}
+        label={[label distance=2mm]270:${OV_{t,n}}$}
         ](b-5-2){};
 
       \node[bullet, left=0mm of tree-6-3.west,
         label={[label distance=1mm]90:${\$64}$},
         label={[label distance=2mm]0:${\$0}$},
-        label={[label distance=2mm]270:${BV_{t,n}}$}
+        label={[label distance=2mm]270:${OV_{t,n}}$}
         ](b-6-3){};
 
       \draw[->] (b-4-1) -- (b-3-2) node [midway,above] {$p$};
@@ -469,7 +469,7 @@ Our updated tree with the exercise value of the options:
   		\draw[->] (b-5-2) -- (b-4-3) node [midway,above] {$p$};
       \draw[->] (b-5-2) -- (b-6-3) node [midway,below] {$(1-p)$};
       \matrix [draw,below left] at (current bounding box.south) {
-        \node [label=right:${BV_{t, n} =}$ \text{binomial value at time period ${t}$}] {}; \\
+        \node [label=right:${OV_{t, n} =}$ \text{option value at time period ${t}$}] {}; \\
       };
   \end{tikzpicture}
   \caption{Updated tree with option value at the end of the 2 periods}
@@ -500,7 +500,7 @@ This is where the backwards induction comes in, as the value of the options (nod
 The binomial value formula\footnote{This was modified from Wikipedia to match this paper's variable usage} is:
 
 \begin{gather*}
-  BV_{t, n} = \frac{(p)V_{t+1,u} + (1-p)V_{t+1,d}}{e^{rt}} \\
+  BV_{t, n} = \frac{(p)V_{t+1,u} + (1-p)V_{t+1,d}}{e^{rt}}, \text{where}~t \in \{0 \rightarrow (tp-1) \} \\
   \\
   \begin{align*}
     \text{where}~V_{t,n} &= \text{the valuation of node ${n}$ where ${n \in \{u, d\}}$}, \\
@@ -593,9 +593,9 @@ This probability effectively becomes the \textit{theoretical} probability of the
 \subsubsection*{Putting Everything Together}
 With all the variables known, we can calculate the binomial values for all the nodes\footnote{From second to last period to ${0^{th}}$ period} except the expiration\footnote{Because the exercise value becomes the max value for the option at expiration.} nodes.
 Since we are using an American-style option for this example, we must also take into consideration that we can exercise\footnote{For European-style options, the binomial value is applied to all nodes\cite{bopmwikipedia}} at any node before expiration.
-This means that we need to find maximum value between the calculated Binomial Value and the Exercise Value denoted\cite{bopmwikipedia}:
+This means that we need to find maximum value between the calculated Binomial Value and the Exercise Value denoted\cite{bopmwikipedia} to get our option's value at time ${t}$:
 \begin{equation*}
-  V_{t,n} = Max({BV, XV})
+  OV_{t,n} = Max({BV, XV})
 \end{equation*}
 
 \noindent which in plain English is:
@@ -609,15 +609,15 @@ Now with our variables known and formulas established, we calculate the binomial
 \begin{equation*}
   \setlength{\jot}{10pt}
   \begin{split}
-    BV_{1, uS}
+    OV_{1, uS}
     & = Max(\frac{[(0.45)(36.25) + (0.55)(0)]}{(1+0.0009)^1}, 5) \\
     & \implies \approx\$16.30 \\
     \\
-    BV_{1, dS}
+    OV_{1, dS}
     & = Max(\frac{[(0.45)(0) + (0.55)(0)]}{(1+0.0009)^1}, 0) \\
     & \implies \$0 \\
     \\
-    BV_{0, S_0}
+    OV_{0, S_0}
     & = Max(\frac{[(0.45)(16.30) + (0.55)(0)]}{(1+0.0009)^0}, 0) \\
     & \implies \approx\$7.33
   \end{split}
@@ -703,7 +703,7 @@ The fundamental formula that this model relies is the present value formula beca
 \subsection*{Checking and Verifying the Work}
 To verify that the example process and results are indeed correct, we will plug in the same information into Jan R\"{o}man's Binomial calculator using the CRR model\cite{romancalc}.
 While the inputs are similar, R\"{o}man's Binomial calculator does not take the up ${(u)}$ and down ${(d)}$ factor as inputs.
-Instead the up and down are calculated from the inputed time periods\footnote{R\"{o}man's calculator calls it ``steps"} (${t}$) and volatility (${\sigma}$).
+Instead the up and down are calculated from the inputed time periods\footnote{R\"{o}man's calculator calls it ``steps"} (${tp}$) and volatility (${\sigma}$).
 Luckily, we can obtain these values from our given variables using the up ${(u)}$ formula introduced earlier in section \ref{establishing movement factors}{\textbf{Establishing Movement Factors}}:
 \begin{gather*}
   u = e^{\sigma\sqrt{x/y}} \\
@@ -713,7 +713,7 @@ Luckily, we can obtain these values from our given variables using the up ${(u)}
   \end{align*} \\
 \end{gather*}
 
-In our example, we are using \textit{days} as our unit of time because ${T=1}$ year and we have time period ${t=2}$, therefore ${y = 365}$ and ${x \approx 182}$. With this information and our up (${u}$) factor is ${1.25}$, we solve for the volatility${(\sigma)}$ of the underlying stock:
+In our example, we are using \textit{days} as our unit of time because ${T=1}$ year and we have time periods ${tp=2}$, therefore ${y = 365}$ and ${x \approx 182}$. With this information and our up (${u}$) factor is ${1.25}$, we solve for the volatility${(\sigma)}$ of the underlying stock:
 \begin{equation*}
   \setlength{\jot}{10pt}
   \begin{split}
